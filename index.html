@@ -11,9 +11,9 @@
         body { background-color: #1a1a1a; color: #fff; font-family: 'Common Pixel', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
         .home-banner { position: relative; width: 100%; height: 200px; overflow: hidden; border-bottom: 2px solid #111; perspective: 1200px; }
-        .home-pic { width: 120%; height: 120%; object-fit: cover; position: absolute; top: -10%; left: -10%;象征 will-change: transform; }
+        .home-pic { width: 120%; height: 120%; object-fit: cover; position: absolute; top: -10%; left: -10%; will-change: transform; }
         
-        .banner-nav { position: absolute; left: 15px; bottom: 12px; font-size: 18px; display: flex; align-items: center; gap: 10px; text-shadow: 2px 2px 0px #000; z-index: 5; }
+        .banner-nav { position: absolute; left: 15px; bottom: 12px; font-size: 18px; display: flex; align-items: center; gap: 10px; text-shadow: 2px 2px 0px #000; z-index: 5; cursor: pointer; }
         .nav-secondary { display: flex; align-items: center; gap: 10px; opacity: 0.7; }
         .nav-divider { width: 1px; height: 16px; background-color: #fff; }
 
@@ -43,11 +43,11 @@
 <body>
     <div class="home-banner">
         <img src="Logos/HomePic.PNG" class="home-pic" id="p">
-        <div class="banner-nav">
+        <div class="banner-nav" onclick="navigateTo('Workspace.html')">
             <span>APIXEL</span>
             <div class="nav-secondary">
                 <div class="nav-divider"></div>
-                <span>HOME</span>
+                <span>WORKSPACE</span>
             </div>
         </div>
     </div>
@@ -88,12 +88,10 @@
     </main>
 
     <script>
-        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
 
-        // Параллакс эффект для баннера
         const p = document.getElementById('p');
         let curX = 0, curY = 0, tarX = 0, tarY = 0;
 
@@ -110,21 +108,15 @@
             tarY = Math.max(Math.min(e.beta - 45, 20), -20) * -1;
         });
 
-        // Функция перехода: вибрация + замена страницы в истории
         function navigateTo(url) {
-            // Виброотклик Telegram
             if (tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred('light');
             }
-
-            // Небольшая задержка перед переходом для ощущения клика
             setTimeout(() => {
-                // replace() заменяет текущую запись в истории, "стирая" путь назад
                 window.location.replace(url);
             }, 100);
         }
 
-        // Запрос разрешений на гироскоп для iOS при первом клике
         document.body.onclick = () => {
             if (typeof DeviceOrientationEvent !== 'undefined' && DeviceOrientationEvent.requestPermission) {
                 DeviceOrientationEvent.requestPermission();
