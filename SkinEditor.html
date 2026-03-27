@@ -14,24 +14,25 @@
         .tab{height:26px;background:#252525;border:1px solid #000;border-bottom:none;padding:0 15px;display:flex;align-items:center;font-size:8px;color:#555;border-radius:4px 4px 0 0}
         .tab.active{background:#333;color:#fff;height:30px;position:relative;z-index:11}
         .tab.active::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:3px;background:#333;z-index:12}
-        .toolbar{height:42px;background:#333;border:1px solid #000;border-left:none;border-right:none;display:flex;align-items:center;padding:0 10px;position:relative;z-index:100;gap:8px}
+        .toolbar{height:42px;background:#333;border:1px solid #000;border-left:none;border-right:none;display:flex;align-items:center;padding:0 10px;z-index:100;gap:8px}
         .toolbar-left,.toolbar-right{display:flex;gap:6px;align-items:center}
         .toolbar-right{flex:1;justify-content:flex-end}
         .back-btn{position:relative;margin-left:15px;padding:0 12px;background:#3d3d3d;border:1px solid #111;height:30px;font-size:8px;display:flex;align-items:center}
         .back-btn::before{content:"";position:absolute;left:-15px;top:-1px;border:15px solid;border-color:transparent #111 transparent transparent}
         .back-btn::after{content:"";position:absolute;left:-13px;top:0;border:14px solid;border-color:transparent #3d3d3d transparent transparent}
-        .btn-ui{height:30px;background:#3d3d3d;border:1px solid #111;display:flex;align-items:center;justify-content:center;padding:0 8px;font-size:7px;position:relative}
+        .btn-ui{height:30px;background:#3d3d3d;border:1px solid #111;display:flex;align-items:center;justify-content:center;padding:0 8px;font-size:7px}
         .info-ui{height:30px;background:#2b2b2b;border:1px solid #111;display:flex;align-items:center;padding:0 8px;font-size:7px;color:#888}
         .dropdown{position:absolute;top:32px;left:-1px;width:100%;background:#3d3d3d;border:1px solid #111;display:none;flex-direction:column;z-index:200}
         .dropdown div{padding:10px;border-bottom:1px solid #111;font-size:7px;text-align:center}
-        main{flex:1;display:flex;justify-content:center;padding-top:20px}
-        .view-row{display:flex;height:300px;width:calc(100% - 40px);border:2px solid #000}
-        .view-w{flex:1;background:#1a1a1a;position:relative;overflow:hidden;background-image:linear-gradient(45deg,#222 25%,transparent 25%),linear-gradient(-45deg,#222 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#222 75%),linear-gradient(-45deg,transparent 75%,#222 75%);background-size:20px 20px}
+        main{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+        .view-container{display:flex;width:100%;max-width:400px;justify-content:center}
+        .view-w{aspect-ratio:1/1;width:75%;background:#1a1a1a;border:2px solid #000;position:relative;overflow:hidden;background-image:linear-gradient(45deg,#222 25%,transparent 25%),linear-gradient(-45deg,#222 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#222 75%),linear-gradient(-45deg,transparent 75%,#222 75%);background-size:20px 20px}
         #skin_container{width:100%;height:100%}
-        .zoom-panel{width:20px;background:#2b2b2b;border-left:2px solid #000;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:4px 0;overflow:hidden}
-        .zoom-ticks{flex:1;width:100%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
-        .zoom-tick{width:8px;height:1px;background:#444;margin:8px 0;transition:transform 0.1s}
-        .zoom-center{position:absolute;width:14px;height:2px;background:#fff;z-index:5;top:50%;margin-top:-1px}
+        .zoom-panel{flex:1;background:#2b2b2b;border:2px solid #000;border-left:none;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10px 0;overflow:hidden;max-width:30px}
+        .zoom-ticks-w{flex:1;width:100%;position:relative;display:flex;flex-direction:column;align-items:center}
+        .zoom-ticks-inner{position:absolute;top:-50%;display:flex;flex-direction:column;align-items:center;gap:12px}
+        .zoom-tick{width:6px;height:1px;background:#444}
+        .zoom-center-line{position:absolute;width:100%;height:2px;background:#fff;top:50%;margin-top:-1px;z-index:5}
         .btn-icon{width:14px;height:14px;filter:brightness(0) invert(1)}
         .robot-icon{width:18px;height:18px}
         .status-bar{height:25px;background:#2b2b2b;border-top:1px solid #111;display:flex;align-items:center;padding:0 12px;font-size:7px;color:#555;justify-content:space-between}
@@ -57,18 +58,23 @@
             <div class="btn-ui" onclick="expS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon"></div>
         </div>
     </div>
-    <main><div class="view-row">
-        <div class="view-w"><div id="skin_container"></div></div>
-        <div class="zoom-panel">
-            <div id="zU" style="font-size:6px;color:#888">0</div>
-            <div class="zoom-ticks" id="zT">
-                <div class="zoom-tick"></div><div class="zoom-tick"></div><div class="zoom-tick"></div>
-                <div class="zoom-center"></div>
-                <div class="zoom-tick"></div><div class="zoom-tick"></div><div class="zoom-tick"></div>
+    <main>
+        <div class="view-container">
+            <div class="view-w"><div id="skin_container"></div></div>
+            <div class="zoom-panel">
+                <div id="zU" style="font-size:6px;color:#888">0</div>
+                <div class="zoom-ticks-w">
+                    <div class="zoom-center-line"></div>
+                    <div class="zoom-ticks-inner" id="zTI">
+                        <div class="zoom-tick"></div><div class="zoom-tick"></div><div class="zoom-tick"></div>
+                        <div class="zoom-tick"></div><div class="zoom-tick"></div><div class="zoom-tick"></div>
+                        <div class="zoom-tick"></div><div class="zoom-tick"></div><div class="zoom-tick"></div>
+                    </div>
+                </div>
+                <div id="zD" style="font-size:6px;color:#888">0</div>
             </div>
-            <div id="zD" style="font-size:6px;color:#888">0</div>
         </div>
-    </div></main>
+    </main>
     <div class="status-bar"><span>MODE: PREVIEW</span><span>RES: 64x64</span></div>
     <script>
         const tg=window.Telegram.WebApp;tg.expand();
@@ -79,11 +85,12 @@
         function up(){
             pT.innerText=`${Math.round(sv.camera.position.x)} ${Math.round(sv.camera.position.y)} ${Math.round(sv.camera.position.z)}`;
             let v=Math.abs(Math.round((sv.zoom-3.5)*10));zU.innerText=v;zD.innerText=v;
-            let off=(sv.zoom%1)*15;
-            document.querySelectorAll('.zoom-tick').forEach(t=>t.style.transform=`translateY(${off}px)`);
+            // Ездящая шкала: смещаем контейнер с делениями
+            let shift=(sv.zoom-3.5)*40; 
+            zTI.style.transform=`translateY(${shift % 30}px)`; 
         }
         ctrl.addEventListener('change',up);up();
-        function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=sv.width/sv.height;sv.camera.updateProjectionMatrix()}
+        function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=1;sv.camera.updateProjectionMatrix()}
         window.onresize=res;res();
         function renameF(){let n=prompt("NAME:",fN.innerText.split('.')[0]);if(n)fN.innerText=n.toLowerCase().slice(0,20)+".png"}
         function tDD(e){e.stopPropagation();mDD.style.display=mDD.style.display==='flex'?'none':'flex'}
