@@ -36,24 +36,25 @@
 <body>
     <div class="tabs-row">
         <div class="tab" onclick="location.href='Workspace.html'"><span>Workspace</span></div>
-        <div class="tab active"><span id="fN">skin.png</span></div>
+        <div class="tab active"><span>skin.png</span></div>
     </div>
     <div class="toolbar">
         <div class="toolbar-left">
             <div class="back-btn" onclick="location.href='index.html'">BACK</div>
             <div class="info-ui">POS: <b id="pT">0 0 0</b></div>
             <div class="btn-ui" onclick="tDD(event)"><span id="mN">STEVE</span><span class="chevron">></span>
-                <div id="mDD" class="dropdown"><div onclick="setM('STEVE')">STEVE</div><div onclick="setM('ALEX')">ALEX</div></div>
+                <div id="mDD" class="dropdown">
+                    <div onclick="setM('STEVE')">STEVE</div>
+                    <div onclick="setM('ALEX')">ALEX</div>
+                </div>
             </div>
             <div class="btn-ui" onclick="toggleL()"><span style="color:#888">LAYERS: </span><span id="lSt" style="margin-left:4px">ON</span></div>
         </div>
         <div class="toolbar-right">
-            <div class="btn-ui" onclick="sU.click()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/download-icon-svg-download-png-14350272.png?f=webp&w=512" class="btn-icon"></div>
             <div class="btn-ui" onclick="saveS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon"></div>
             <div class="btn-ui" onclick="expS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon"></div>
         </div>
     </div>
-    <input type="file" id="sU" accept="image/png" style="display:none">
     <main><div class="view-w"><div id="skin_container"></div></div></main>
     <div class="status-bar"><span>MODE: PREVIEW</span><span>RES: 64x64</span></div>
     <script>
@@ -62,34 +63,18 @@
         document.getElementById("skin_container").appendChild(sv.canvas);
         let ctrl=skinview3d.createOrbitControls(sv);
         sv.zoom=3.5;sv.camera.position.set(0,10,30);sv.animation=new skinview3d.WalkingAnimation();
-        let curU="https://minotar.net/skin/MHF_Steve.png";
 
         function upP(){const c=sv.camera.position;pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`}
         ctrl.addEventListener('change',upP);upP();
         function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=w.clientWidth/w.clientHeight;sv.camera.updateProjectionMatrix()}
         window.addEventListener('resize',res);res();
 
-        sU.onchange=e=>{
-            const f=e.target.files[0];if(!f)return;
-            fN.innerText=f.name;const r=new FileReader();
-            r.onload=ev=>{
-                const i=new Image();i.onload=()=>{
-                    const c=document.createElement('canvas');const x=c.getContext('2d');
-                    c.width=i.width;c.height=i.height;x.drawImage(i,0,0);
-                    const isS=x.getImageData(50,16,1,1).data[3]!==0;
-                    curU=ev.target.result;
-                    setM(isS?'STEVE':'ALEX',curU);
-                };i.src=ev.target.result;
-            };r.readAsDataURL(f);
-        };
-
         function tDD(e){e.stopPropagation();mDD.style.display=mDD.style.display==='flex'?'none':'flex';if(mDD.style.display==='flex')tg.HapticFeedback?.impactOccurred('light')}
         
-        function setM(m,u){
+        function setM(m){
             mN.innerText=m;const isS=(m==='STEVE');
-            const src=u||(isS?"https://minotar.net/skin/MHF_Steve.png":"https://minotar.net/skin/MHF_Alex.png");
-            curU=src;
-            sv.loadSkin(src,{model:isS?"default":"slim"});
+            // Принудительная перезагрузка модели с правильными параметрами
+            sv.loadSkin(isS?"https://minotar.net/skin/MHF_Steve.png":"https://minotar.net/skin/MHF_Alex.png",{model:isS?"default":"slim"});
             tg.HapticFeedback?.impactOccurred('medium');
         }
 
@@ -101,7 +86,7 @@
         }
 
         function saveS(){tg.HapticFeedback?.notificationOccurred('success')}
-        function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download=fN.innerText;a.click()}
+        function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download='skin.png';a.click()}
         window.onclick=()=>mDD.style.display='none';
         document.addEventListener('touchmove',e=>{if(e.target.closest('#skin_container'))e.preventDefault()},{passive:false});
     </script>
