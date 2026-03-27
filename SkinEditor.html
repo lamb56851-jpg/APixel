@@ -62,10 +62,10 @@
                     <div onclick="setM('ALEX',true)">ALEX</div>
                 </div>
             </div>
+            <div class="btn-ui" onclick="toggleL()"><span style="color:#888">LAYERS: </span><span id="lSt" style="margin-left:4px">ON</span></div>
             <div class="btn-ui" onclick="tg.HapticFeedback?.impactOccurred('light')">
                 <img src="https://cdn-icons-png.flaticon.com/512/8254/8254111.png" class="btn-icon">
             </div>
-            <div class="btn-ui" onclick="toggleL()"><span style="color:#888">LAYERS: </span><span id="lSt" style="margin-left:4px">ON</span></div>
         </div>
         <div class="toolbar-right">
             <div class="btn-ui" onclick="saveS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon"></div>
@@ -76,7 +76,14 @@
     <div class="status-bar"><span>MODE: PREVIEW</span><span>RES: 64x64</span></div>
     <script>
         const tg=window.Telegram.WebApp;tg.expand();tg.disableVerticalSwipes();
-        let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/MHF_Steve.png",alpha:true});
+        // Инициализация Стива с толстыми руками (default)
+        let sv=new skinview3d.SkinViewer({
+            width:300,
+            height:300,
+            skin:"https://minotar.net/skin/MHF_Steve.png",
+            model:"default",
+            alpha:true
+        });
         document.getElementById("skin_container").appendChild(sv.canvas);
         let ctrl=skinview3d.createOrbitControls(sv);
         sv.zoom=3.5;sv.camera.position.set(0,10,30);sv.animation=new skinview3d.WalkingAnimation();
@@ -99,6 +106,7 @@
         function setM(m, isSlim){
             mN.innerText=m;
             const url = isSlim ? "https://minotar.net/skin/Alex" : "https://minotar.net/skin/MHF_Steve.png";
+            // Для Стива всегда ставим "default" (толстые руки)
             sv.loadSkin(url, {model: isSlim ? "slim" : "default"});
             tg.HapticFeedback?.impactOccurred('medium');
         }
