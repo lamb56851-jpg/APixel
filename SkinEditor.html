@@ -10,57 +10,74 @@
         *{box-sizing:border-box;margin:0;padding:0;-webkit-user-select:none;user-select:none;touch-action:none;image-rendering:pixelated}
         html,body{position:fixed;width:100%;height:100%;overflow:hidden;background:#1a1a1a;color:#fff;font-family:'Common Pixel',sans-serif}
         body{display:flex;flex-direction:column;padding-top:85px}
+        
+        /* TABS */
         .tabs-row{display:flex;padding:0 10px;gap:2px;height:30px;align-items:flex-end}
         .tab{height:26px;background:#252525;border:1px solid #000;border-bottom:none;padding:0 15px;display:flex;align-items:center;font-size:8px;color:#555;border-radius:4px 4px 0 0;cursor:pointer}
         .tab.active{background:#333;color:#fff;height:30px;position:relative;z-index:11}
         .tab.active::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:3px;background:#333;z-index:12}
         .file-name-container{display:flex;align-items:center;gap:6px}
         .pencil-icon{width:10px;height:10px;filter:brightness(0) invert(1);opacity:0.7}
+
+        /* TOP TOOLBAR */
         .toolbar{height:42px;background:#333;border:1px solid #000;border-left:none;border-right:none;display:flex;align-items:center;padding:0 10px;position:relative;z-index:100;gap:8px}
         .toolbar-left,.toolbar-right{display:flex;align-items:center;gap:6px}
         .toolbar-right{flex:1;justify-content:flex-end}
+        
         .back-btn{position:relative;margin-left:15px;padding:0 12px;background:#3d3d3d;border:1px solid #111;border-left:none;height:30px;color:#fff;font-size:8px;display:flex;align-items:center;box-shadow:inset 0 1px 0 #555,inset 0 -1px 0 #222}
         .back-btn::before{content:"";position:absolute;left:-15px;top:-1px;border-style:solid;border-width:15px 15px 15px 0;border-color:transparent #111 transparent transparent}
         .back-btn::after{content:"";position:absolute;left:-13px;top:0;border-style:solid;border-width:14px 14px 14px 0;border-color:transparent #3d3d3d transparent transparent}
+        
         .btn-ui{height:30px;background:#3d3d3d;border:1px solid #111;box-shadow:inset 1px 1px 0 #555,inset -1px -1px 0 #222;display:flex;align-items:center;justify-content:center;padding:0 8px;font-size:7px;color:#fff;position:relative;cursor:pointer}
         .btn-ui.active{background:#222;box-shadow:inset 1px 1px 2px #000;border-color:#555}
         .info-ui{height:30px;background:#2b2b2b;border:1px solid #111;display:flex;align-items:center;padding:0 8px;font-size:7px;color:#888;letter-spacing:1px}
+        
         .chevron{font-size:10px;transform:rotate(90deg);margin-left:6px;color:#fff}
         .dropdown{position:absolute;top:32px;left:-1px;width:100%;background:#3d3d3d;border:1px solid #111;display:none;flex-direction:column;z-index:200;box-shadow:inset 1px 1px 0 #555}
         .dropdown div{padding:10px;border-bottom:1px solid #111;color:#fff;text-align:center;font-size:7px}
+        
         .btn-icon{width:14px;height:14px;filter:brightness(0) invert(1)}
-        main{flex:1;display:flex;flex-direction:column;align-items:center;padding:15px 0;position:relative;min-height:0}
-        .view-w{width:calc(100% - 40px);flex:1;background:#1a1a1a;border:2px solid #000;box-shadow:inset 2px 2px 0 #222;position:relative;overflow:hidden}
+        
+        /* MAIN VIEW */
+        main{flex:1;display:flex;flex-direction:column;align-items:center;padding-top:20px;position:relative}
+        .view-w{width:calc(100% - 40px);height:45%;background:#1a1a1a;border:2px solid #000;box-shadow:inset 2px 2px 0 #222;position:relative;overflow:hidden}
         .view-w::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(45deg,#222 25%,transparent 25%),linear-gradient(-45deg,#222 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#222 75%),linear-gradient(-45deg,transparent 75%,#222 75%);background-size:20px 20px}
         #skin_container{width:100%;height:100%;position:absolute;display:flex;justify-content:center;align-items:center}
-        .edit-panel{width:100%;background:rgba(40,40,40,0.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid #111;padding:10px;display:flex;flex-direction:column;gap:10px;position:relative;z-index:150}
-        .context-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
-        .slider-group{display:flex;align-items:center;gap:6px;font-size:7px;color:#aaa}
-        .sl{width:45px;height:4px;-webkit-appearance:none;background:#111;outline:none;border-radius:2px;box-shadow:inset 1px 1px 0 #000}
-        .sl::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;background:#fff;border-radius:50%;border:1px solid #000}
+
+        /* BOTTOM EDIT PANEL */
+        .edit-panel{width:100%;background:#333;border-top:1px solid #000;padding:10px;display:flex;flex-direction:column;gap:10px}
         .tools-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-        .color-selector{display:flex;align-items:center;gap:6px;background:#2b2b2b;padding:4px 6px;border:1px solid #111;height:34px}
-        .color-preview{width:16px;height:16px;border:1px solid #000;background:#fff}
-        .rgb-text{font-size:7px;color:#fff;letter-spacing:1px;min-width:45px}
-        .recent-colors{display:flex;gap:2px;border-left:1px solid #444;padding-left:6px}
-        .r-col{width:12px;height:12px;border:1px solid #000;cursor:pointer}
+        .color-selector{display:flex;align-items:center;gap:8px;background:#2b2b2b;padding:4px 8px;border:1px solid #111;height:34px;cursor:pointer}
+        .color-preview{width:16px;height:16px;border:1px solid #000;background:#ffffff}
+        .rgb-text{font-size:7px;color:#fff;letter-spacing:1px}
         .tool-group{display:flex;gap:4px}
-        .layer-menu{position:absolute;bottom:calc(100% + 5px);right:10px;background:#3d3d3d;border:1px solid #111;display:none;flex-direction:column;z-index:200;box-shadow:inset 1px 1px 0 #555;width:110px}
-        .layer-item{padding:10px;border-bottom:1px solid #111;display:flex;justify-content:space-between;font-size:7px;color:#fff;cursor:pointer}
+
+        /* STATUS BAR */
         .status-bar{height:25px;background:#2b2b2b;border-top:1px solid #111;display:flex;align-items:center;padding:0 12px;font-size:7px;color:#555;justify-content:space-between}
     </style>
 </head>
 <body>
-    <div class="tabs-row"><div class="tab" onclick="location.href='Workspace.html'"><span>Workspace</span></div><div class="tab active" onclick="renameF()"><div class="file-name-container"><span id="fN">skin.png</span><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/edit-icon-svg-download-png-14350273.png?f=webp&w=512" class="pencil-icon"></div></div></div>
+    <div class="tabs-row">
+        <div class="tab" onclick="location.href='Workspace.html'"><span>Workspace</span></div>
+        <div class="tab active" onclick="renameF()">
+            <div class="file-name-container">
+                <span id="fN">skin.png</span>
+                <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/edit-icon-svg-download-png-14350273.png?f=webp&w=512" class="pencil-icon">
+            </div>
+        </div>
+    </div>
+    
     <div class="toolbar">
         <div class="toolbar-left">
             <div class="back-btn" onclick="location.href='index.html'">BACK</div>
             <div class="info-ui">POS: <b id="pT">0 0 0</b></div>
-            <div class="btn-ui" onclick="tDD(event,'mDD')"><span id="mN">STEVE</span><span class="chevron">></span>
-                <div id="mDD" class="dropdown"><div onclick="setM('STEVE',false)">STEVE</div><div onclick="setM('ALEX',true)">ALEX</div></div>
+            <div class="btn-ui" onclick="tDD(event)"><span id="mN">STEVE</span><span class="chevron">></span>
+                <div id="mDD" class="dropdown">
+                    <div onclick="setM('STEVE',false)">STEVE</div>
+                    <div onclick="setM('ALEX',true)">ALEX</div>
+                </div>
             </div>
-            <div class="btn-ui" onclick="toggleL()"><span style="color:#888">OUTER: </span><span id="lSt" style="margin-left:4px">ON</span></div>
-            <div class="btn-ui" onclick="tg.HapticFeedback?.impactOccurred('light')"><img src="https://cdn-icons-png.flaticon.com/512/8254/8254111.png" style="width:18px;height:18px;object-fit:contain;"></div>
+            <div class="btn-ui" onclick="toggleL()"><span style="color:#888">LAYERS: </span><span id="lSt" style="margin-left:4px">ON</span></div>
         </div>
         <div class="toolbar-right">
             <div class="btn-ui" onclick="saveS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon"></div>
@@ -69,63 +86,278 @@
             <input type="file" id="skinImport" accept="image/png" style="display:none" onchange="handleImport(event)">
         </div>
     </div>
-    <main><div class="view-w"><div id="skin_container"></div></div></main>
+
+    <main>
+        <div class="view-w"><div id="skin_container"></div></div>
+    </main>
+
     <div class="edit-panel">
-        <div class="context-row">
-            <div style="display:flex;gap:12px">
-                <div class="slider-group">SIZE <input type="range" min="1" max="10" value="1" class="sl" oninput="tg.HapticFeedback?.selectionChanged()"></div>
-                <div class="slider-group">OPC <input type="range" min="0" max="100" value="100" class="sl" oninput="tg.HapticFeedback?.selectionChanged()"></div>
-            </div>
-            <div style="display:flex;gap:4px">
-                <div class="btn-ui" onclick="tg.HapticFeedback?.impactOccurred('light')">↶</div>
-                <div class="btn-ui" onclick="tg.HapticFeedback?.impactOccurred('light')">↷</div>
-            </div>
-        </div>
         <div class="tools-row">
-            <div class="color-selector">
-                <div id="cP" class="color-preview" onclick="document.getElementById('cI').click()"></div>
-                <span id="rT" class="rgb-text">255 255 255</span>
-                <input type="color" id="cI" style="display:none" value="#ffffff" onchange="uC(this.value)">
-                <div class="recent-colors" id="rC"></div>
+            <div class="color-selector" onclick="pickColor()">
+                <div id="colorPreview" class="color-preview"></div>
+                <span id="rgbText" class="rgb-text">255 255 255</span>
+                <input type="color" id="colorInput" style="display:none" value="#ffffff" onchange="updateColor(this.value)">
             </div>
+
             <div class="tool-group">
-                <div class="btn-ui active" id="t_brush" onclick="sT('brush')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/paint-brush-icon-svg-download-png-14350322.png?f=webp&w=512" class="btn-icon"></div>
-                <div class="btn-ui" id="t_eraser" onclick="sT('eraser')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/eraser-icon-svg-download-png-14350275.png?f=webp&w=512" class="btn-icon"></div>
-                <div class="btn-ui" id="t_bucket" onclick="sT('bucket')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/paint-bucket-icon-svg-download-png-14350323.png?f=webp&w=512" class="btn-icon"></div>
-                <div class="btn-ui" id="t_picker" onclick="sT('picker')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/zoom-in-icon-svg-download-png-14350385.png?f=webp&w=512" class="btn-icon"></div>
+                <div class="btn-ui active" id="tool_brush" onclick="setTool('brush')">
+                    <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/paint-brush-icon-svg-download-png-14350322.png?f=webp&w=512" class="btn-icon">
+                </div>
+                <div class="btn-ui" id="tool_eraser" onclick="setTool('eraser')">
+                    <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/eraser-icon-svg-download-png-14350275.png?f=webp&w=512" class="btn-icon">
+                </div>
+                <div class="btn-ui" id="tool_bucket" onclick="setTool('bucket')">
+                    <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/paint-bucket-icon-svg-download-png-14350323.png?f=webp&w=512" class="btn-icon">
+                </div>
+                <div class="btn-ui" id="tool_picker" onclick="setTool('picker')">
+                    <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/zoom-in-icon-svg-download-png-14350385.png?f=webp&w=512" class="btn-icon">
+                </div>
             </div>
-            <div class="btn-ui" onclick="tDD(event,'lM')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/layers-icon-svg-download-png-14350299.png?f=webp&w=512" class="btn-icon"><div id="lM" class="layer-menu"></div></div>
+
+            <div class="btn-ui" onclick="rotateToggle()">
+                <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/layers-icon-svg-download-png-14350299.png?f=webp&w=512" class="btn-icon">
+            </div>
         </div>
     </div>
-    <div class="status-bar"><span>MODE: EDIT</span><span>RES: 64x64</span></div>
+
+    <div class="status-bar"><span>MODE: EDITING</span><span id="resInfo">RES: 64x64</span></div>
+    
     <script>
-        const tg=window.Telegram.WebApp;tg.expand();tg.disableVerticalSwipes();
-        let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/MHF_Steve.png",model:"default",alpha:true});
-        document.getElementById("skin_container").appendChild(sv.canvas);
-        let ctrl=skinview3d.createOrbitControls(sv);sv.zoom=3.5;sv.camera.position.set(0,10,30);sv.animation=new skinview3d.WalkingAnimation();
-        function upP(){const c=sv.camera.position;pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`}
-        ctrl.addEventListener('change',upP);upP();
-        function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=w.clientWidth/w.clientHeight;sv.camera.updateProjectionMatrix()}
-        window.addEventListener('resize',res);res();
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.disableVerticalSwipes();
 
-        let hist=['#ff0000','#00ff00','#0000ff','#ffff00','#ff00ff'];
-        function rDR(){rC.innerHTML=hist.map(c=>`<div class="r-col" style="background:${c}" onclick="uC('${c}',true)"></div>`).join('');} rDR();
-        function uC(h,f){cP.style.background=h;let r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);rT.innerText=`${r} ${g} ${b}`;if(!hist.includes(h)){hist.unshift(h);hist.pop();rDR()}if(f)event.stopPropagation();tg.HapticFeedback?.impactOccurred('light')}
-        function sT(t){['brush','eraser','bucket','picker'].forEach(x=>document.getElementById(`t_${x}`).classList.remove('active'));document.getElementById(`t_${t}`).classList.add('active');tg.HapticFeedback?.impactOccurred('light')}
+        let currentTool = 'brush';
+        let currentColor = '#ffffff';
+        let isRotating = true;
+
+        // Инициализация Canvas для рисования
+        const paintCanvas = document.createElement('canvas');
+        paintCanvas.width = 64;
+        paintCanvas.height = 64;
+        const ctx = paintCanvas.getContext('2d', { willReadFrequently: true });
         
-        const pts={head:'HEAD',body:'BODY',rightArm:'R-ARM',leftArm:'L-ARM',rightLeg:'R-LEG',leftLeg:'L-LEG'};
-        let lMH='';for(let p in pts)lMH+=`<div class="layer-item" onclick="tP('${p}',this,event)"><span>${pts[p]}</span><span style="color:#fff">ON</span></div>`;document.getElementById('lM').innerHTML=lMH;
-        function tP(p,el,e){e.stopPropagation();let o=sv.playerObject.skin[p];o.visible=!o.visible;el.children[1].innerText=o.visible?'ON':'OFF';el.children[1].style.color=o.visible?'#fff':'#888';tg.HapticFeedback?.impactOccurred('light')}
+        // Создаем SkinViewer
+        let sv = new skinview3d.SkinViewer({
+            width: 300,
+            height: 300,
+            alpha: true
+        });
+        document.getElementById("skin_container").appendChild(sv.canvas);
+        
+        let ctrl = skinview3d.createOrbitControls(sv);
+        sv.zoom = 3.5;
+        sv.camera.position.set(0, 10, 30);
+        
+        // Загрузка начального скина на наш холст
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = "https://minotar.net/skin/MHF_Steve.png";
+        img.onload = () => {
+            ctx.clearRect(0, 0, 64, 64);
+            ctx.drawImage(img, 0, 0);
+            sv.loadSkin(paintCanvas.toDataURL());
+        };
 
-        function tDD(e,id){e.stopPropagation();let m=document.getElementById(id);document.querySelectorAll('.dropdown,.layer-menu').forEach(d=>d!==m?d.style.display='none':0);m.style.display=m.style.display==='flex'?'none':'flex';if(m.style.display==='flex')tg.HapticFeedback?.impactOccurred('light')}
-        function renameF(){tg.HapticFeedback?.impactOccurred('light');let n=prompt("ENTER FILE NAME:",fN.innerText.replace('.png',''));if(n&&n.trim()!=="")fN.innerText=n.substring(0,20).toLowerCase()+".png"}
-        function setM(m,s){mN.innerText=m;sv.loadSkin(s?"https://minotar.net/skin/Alex":"https://minotar.net/skin/MHF_Steve.png",{model:s?"slim":"default"});tg.HapticFeedback?.impactOccurred('medium')}
-        function toggleL(){const on=lSt.innerText==="ON";lSt.innerText=on?"OFF":"ON";lSt.style.color=on?"#888":"#fff";Object.keys(pts).forEach(p=>sv.playerObject.skin[p].outerLayer.visible=!on);tg.HapticFeedback?.impactOccurred('light')}
+        // ТРЕКИНГ МЫШИ ДЛЯ РИСОВАНИЯ
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        function handlePointer(e) {
+            if (isRotating && currentTool !== 'picker') return;
+
+            const rect = sv.canvas.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            mouse.set(x, y);
+
+            raycaster.setFromCamera(mouse, sv.camera);
+            const intersects = raycaster.intersectObjects(sv.playerObject.children, true);
+
+            if (intersects.length > 0) {
+                const hit = intersects[0];
+                if (hit.uv) {
+                    const u = Math.floor(hit.uv.x * 64);
+                    const v = Math.floor((1 - hit.uv.y) * 64);
+                    applyTool(u, v);
+                }
+            }
+        }
+
+        sv.canvas.addEventListener('pointerdown', (e) => {
+            if (!isRotating) {
+                sv.canvas.setPointerCapture(e.pointerId);
+                handlePointer(e);
+                sv.canvas.addEventListener('pointermove', handlePointer);
+            }
+        });
+
+        window.addEventListener('pointerup', () => {
+            sv.canvas.removeEventListener('pointermove', handlePointer);
+        });
+
+        function applyTool(x, y) {
+            if (currentTool === 'brush') {
+                ctx.fillStyle = currentColor;
+                ctx.fillRect(x, y, 1, 1);
+            } else if (currentTool === 'eraser') {
+                ctx.clearRect(x, y, 1, 1);
+            } else if (currentTool === 'picker') {
+                const data = ctx.getImageData(x, y, 1, 1).data;
+                const hex = "#" + ((1 << 24) + (data[0] << 16) + (data[1] << 8) + data[2]).toString(16).slice(1);
+                updateColor(hex);
+                setTool('brush');
+                return;
+            } else if (currentTool === 'bucket') {
+                floodFill(x, y, currentColor);
+            }
+            
+            // Обновляем текстуру на модели
+            sv.loadSkin(paintCanvas.toDataURL());
+        }
+
+        // FLOOD FILL (ЗАЛИВКА)
+        function floodFill(startX, startY, fillHex) {
+            const targetColor = ctx.getImageData(startX, startY, 1, 1).data;
+            const fillRgb = hexToRgb(fillHex);
+            
+            if (colorsMatch(targetColor, [fillRgb.r, fillRgb.g, fillRgb.b, 255])) return;
+
+            const imageData = ctx.getImageData(0, 0, 64, 64);
+            const pixels = imageData.data;
+            const stack = [[startX, startY]];
+
+            while (stack.length > 0) {
+                const [x, y] = stack.pop();
+                const offset = (y * 64 + x) * 4;
+
+                if (colorsMatch([pixels[offset], pixels[offset+1], pixels[offset+2], pixels[offset+3]], targetColor)) {
+                    pixels[offset] = fillRgb.r;
+                    pixels[offset+1] = fillRgb.g;
+                    pixels[offset+2] = fillRgb.b;
+                    pixels[offset+3] = 255;
+
+                    if (x > 0) stack.push([x - 1, y]);
+                    if (x < 63) stack.push([x + 1, y]);
+                    if (y > 0) stack.push([x, y - 1]);
+                    if (y < 63) stack.push([x, y + 1]);
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        function colorsMatch(a, b) {
+            return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
+        }
+
+        function hexToRgb(hex) {
+            const r = parseInt(hex.slice(1,3), 16);
+            const g = parseInt(hex.slice(3,5), 16);
+            const b = parseInt(hex.slice(5,7), 16);
+            return {r, g, b};
+        }
+
+        // UI ФУНКЦИИ
+        function rotateToggle() {
+            isRotating = !isRotating;
+            ctrl.enabled = isRotating;
+            tg.HapticFeedback?.impactOccurred('medium');
+            document.querySelector('.status-bar span').innerText = isRotating ? "MODE: VIEW" : "MODE: PAINT";
+        }
+
+        function pickColor() {
+            document.getElementById('colorInput').click();
+        }
+
+        function updateColor(hex) {
+            currentColor = hex;
+            document.getElementById('colorPreview').style.background = hex;
+            const rgb = hexToRgb(hex);
+            document.getElementById('rgbText').innerText = `${rgb.r} ${rgb.g} ${rgb.b}`;
+            document.getElementById('colorInput').value = hex;
+            tg.HapticFeedback?.impactOccurred('light');
+        }
+
+        function setTool(tool) {
+            currentTool = tool;
+            const tools = ['brush', 'eraser', 'bucket', 'picker'];
+            tools.forEach(t => document.getElementById(`tool_${t}`).classList.remove('active'));
+            document.getElementById(`tool_${tool}`).classList.add('active');
+            
+            if (tool !== 'picker') {
+                isRotating = false;
+                ctrl.enabled = false;
+            }
+            tg.HapticFeedback?.impactOccurred('light');
+        }
+
+        function setM(m, isSlim){
+            mN.innerText=m;
+            const url = isSlim ? "https://minotar.net/skin/Alex" : "https://minotar.net/skin/MHF_Steve.png";
+            const tempImg = new Image();
+            tempImg.crossOrigin = "anonymous";
+            tempImg.src = url;
+            tempImg.onload = () => {
+                ctx.clearRect(0,0,64,64);
+                ctx.drawImage(tempImg, 0, 0);
+                sv.loadSkin(paintCanvas.toDataURL(), {model: isSlim ? "slim" : "default"});
+            };
+            tg.HapticFeedback?.impactOccurred('medium');
+        }
+
+        function toggleL(){
+            const on = lSt.innerText === "ON";
+            lSt.innerText = on ? "OFF" : "ON";
+            lSt.style.color = on ? "#888" : "#fff";
+            const parts = ['head','body','rightArm','leftArm','rightLeg','leftLeg'];
+            parts.forEach(p => sv.playerObject.skin[p].outerLayer.visible = !on);
+            tg.HapticFeedback?.impactOccurred('light');
+        }
+
+        function renameF(){
+            let n = prompt("ENTER FILE NAME:", fN.innerText.replace('.png',''));
+            if(n) fN.innerText = n.substring(0, 20).toLowerCase() + ".png";
+        }
+
+        function expS(){
+            const a = document.createElement('a');
+            a.href = paintCanvas.toDataURL();
+            a.download = fN.innerText;
+            a.click();
+        }
+
+        function impS(){ document.getElementById('skinImport').click(); }
+
+        function handleImport(event){
+            const file = event.target.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imgImp = new Image();
+                imgImp.onload = () => {
+                    ctx.clearRect(0,0,64,64);
+                    ctx.drawImage(imgImp, 0, 0);
+                    sv.loadSkin(paintCanvas.toDataURL());
+                };
+                imgImp.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function tDD(e){e.stopPropagation(); mDD.style.display = mDD.style.display==='flex'?'none':'flex';}
+        window.onclick=()=>mDD.style.display='none';
+
+        function upP(){const c=sv.camera.position; pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`}
+        ctrl.addEventListener('change', upP);
+        
+        function res(){
+            const w=document.querySelector('.view-w');
+            sv.width=w.clientWidth; sv.height=w.clientHeight;
+            sv.camera.aspect=w.clientWidth/w.clientHeight;
+            sv.camera.updateProjectionMatrix();
+        }
+        window.addEventListener('resize', res); res();
         function saveS(){tg.HapticFeedback?.notificationOccurred('success')}
-        function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download=fN.innerText;a.click()}
-        function impS(){document.getElementById('skinImport').click();tg.HapticFeedback?.impactOccurred('light')}
-        function handleImport(event){const f=event.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(e){sv.loadSkin(e.target.result,{model:mN.innerText==='ALEX'?"slim":"default"});let n=f.name.substring(0,20).toLowerCase();fN.innerText=n+(n.endsWith('.png')?'':'.png');tg.HapticFeedback?.notificationOccurred('success')};r.readAsDataURL(f);event.target.value=''}
-        window.onclick=()=>document.querySelectorAll('.dropdown,.layer-menu').forEach(d=>d.style.display='none');
     </script>
 </body>
 </html>
