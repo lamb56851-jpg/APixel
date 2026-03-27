@@ -23,7 +23,7 @@
         .btn-ui{height:30px;background:#3d3d3d;border:1px solid #111;box-shadow:inset 1px 1px 0 #555,inset -1px -1px 0 #222;display:flex;align-items:center;justify-content:center;padding:0 8px;font-size:7px;color:#fff;position:relative}
         .info-ui{height:30px;background:#2b2b2b;border:1px solid #111;display:flex;align-items:center;padding:0 8px;font-size:7px;color:#888;letter-spacing:1px}
         .chevron{font-size:10px;transform:rotate(90deg);margin-left:6px;color:#fff}
-        .dropdown{position:absolute;top:32px;left:-1px;width:120px;background:#3d3d3d;border:1px solid #111;display:none;flex-direction:column;z-index:200;box-shadow:inset 1px 1px 0 #555;max-height:200px;overflow-y:auto}
+        .dropdown{position:absolute;top:32px;left:-1px;width:120px;background:#3d3d3d;border:1px solid #111;display:none;flex-direction:column;z-index:200;box-shadow:inset 1px 1px 0 #555;max-height:180px;overflow-y:auto}
         .dropdown div{padding:10px;border-bottom:1px solid #111;color:#fff;text-align:center;font-size:7px}
         .btn-icon{width:14px;height:14px;filter:brightness(0) invert(1)}
         main{flex:1;display:flex;flex-direction:column;align-items:center;padding-top:20px}
@@ -44,15 +44,15 @@
             <div class="info-ui">POS: <b id="pT">0 0 0</b></div>
             <div class="btn-ui" onclick="tDD(event)"><span id="mN">STEVE</span><span class="chevron">></span>
                 <div id="mDD" class="dropdown">
-                    <div onclick="setChar('Steve',false)">STEVE</div>
-                    <div onclick="setChar('Alex',true)">ALEX</div>
-                    <div onclick="setChar('Sunny',false)">SUNNY</div>
-                    <div onclick="setChar('Kai',false)">KAI</div>
-                    <div onclick="setChar('Makena',true)">MAKENA</div>
-                    <div onclick="setChar('Zuri',false)">ZURI</div>
-                    <div onclick="setChar('Efe',true)">EFE</div>
-                    <div onclick="setChar('Ari',true)">ARI</div>
-                    <div onclick="setChar('Noor',true)">NOOR</div>
+                    <div onclick="setChar('Steve','default')">STEVE</div>
+                    <div onclick="setChar('Alex','slim')">ALEX</div>
+                    <div onclick="setChar('Sunny','default')">SUNNY</div>
+                    <div onclick="setChar('Kai','default')">KAI</div>
+                    <div onclick="setChar('Makena','slim')">MAKENA</div>
+                    <div onclick="setChar('Zuri','default')">ZURI</div>
+                    <div onclick="setChar('Efe','slim')">EFE</div>
+                    <div onclick="setChar('Ari','slim')">ARI</div>
+                    <div onclick="setChar('Noor','slim')">NOOR</div>
                 </div>
             </div>
             <div class="btn-ui" onclick="toggleL()"><span style="color:#888">LAYERS: </span><span id="lSt" style="margin-left:4px">ON</span></div>
@@ -66,7 +66,7 @@
     <div class="status-bar"><span>MODE: PREVIEW</span><span>RES: 64x64</span></div>
     <script>
         const tg=window.Telegram.WebApp;tg.expand();tg.disableVerticalSwipes();
-        let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/Steve",alpha:true});
+        let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/MHF_Steve",alpha:true});
         document.getElementById("skin_container").appendChild(sv.canvas);
         let ctrl=skinview3d.createOrbitControls(sv);
         sv.zoom=3.5;sv.camera.position.set(0,10,30);sv.animation=new skinview3d.WalkingAnimation();
@@ -78,9 +78,14 @@
 
         function tDD(e){e.stopPropagation();mDD.style.display=mDD.style.display==='flex'?'none':'flex';if(mDD.style.display==='flex')tg.HapticFeedback?.impactOccurred('light')}
         
-        function setChar(name, isSlim){
+        function setChar(name, modelType){
             mN.innerText = name.toUpperCase();
-            sv.loadSkin(`https://minotar.net/skin/${name}`, {model: isSlim ? "slim" : "default"});
+            // Используем MHF префиксы для классики и прямые имена для новых, если minotar их знает
+            let url = `https://minotar.net/skin/${name}`;
+            if(name === 'Steve') url = "https://minotar.net/skin/MHF_Steve";
+            if(name === 'Alex') url = "https://minotar.net/skin/MHF_Alex";
+            
+            sv.loadSkin(url, {model: modelType});
             tg.HapticFeedback?.impactOccurred('medium');
         }
 
