@@ -36,7 +36,7 @@
 <body>
     <div class="tabs-row">
         <div class="tab" onclick="location.href='Workspace.html'"><span>Workspace</span></div>
-        <div class="tab active"><span>skin.png</span></div>
+        <div class="tab active"><span id="fN">skin.png</span></div>
     </div>
     <div class="toolbar">
         <div class="toolbar-left">
@@ -51,15 +51,17 @@
             <div class="btn-ui" onclick="toggleL()"><span style="color:#888">LAYERS: </span><span id="lSt" style="margin-left:4px">ON</span></div>
         </div>
         <div class="toolbar-right">
+            <div class="btn-ui" onclick="sU.click()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/download-icon-svg-download-png-14350272.png?f=webp&w=512" class="btn-icon"></div>
             <div class="btn-ui" onclick="saveS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon"></div>
             <div class="btn-ui" onclick="expS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon"></div>
         </div>
     </div>
+    <input type="file" id="sU" accept="image/png" style="display:none">
     <main><div class="view-w"><div id="skin_container"></div></div></main>
     <div class="status-bar"><span>MODE: PREVIEW</span><span>RES: 64x64</span></div>
     <script>
         const tg=window.Telegram.WebApp;tg.expand();tg.disableVerticalSwipes();
-        let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/MHF_Steve.png",alpha:true});
+        let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/Steve",alpha:true});
         document.getElementById("skin_container").appendChild(sv.canvas);
         let ctrl=skinview3d.createOrbitControls(sv);
         sv.zoom=3.5;sv.camera.position.set(0,10,30);sv.animation=new skinview3d.WalkingAnimation();
@@ -69,12 +71,25 @@
         function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=w.clientWidth/w.clientHeight;sv.camera.updateProjectionMatrix()}
         window.addEventListener('resize',res);res();
 
+        sU.onchange=e=>{
+            const f=e.target.files[0];if(!f)return;
+            fN.innerText=f.name;const r=new FileReader();
+            r.onload=ev=>{
+                const i=new Image();i.onload=()=>{
+                    const c=document.createElement('canvas');const x=c.getContext('2d');
+                    c.width=i.width;c.height=i.height;x.drawImage(i,0,0);
+                    const isSlim=x.getImageData(50,16,1,1).data[3]===0;
+                    setM(isSlim?'ALEX':'STEVE',isSlim,ev.target.result);
+                };i.src=ev.target.result;
+            };r.readAsDataURL(f);
+        };
+
         function tDD(e){e.stopPropagation();mDD.style.display=mDD.style.display==='flex'?'none':'flex';if(mDD.style.display==='flex')tg.HapticFeedback?.impactOccurred('light')}
         
-        function setM(m, isSlim){
+        function setM(m,isS,u){
             mN.innerText=m;
-            const url = isSlim ? "https://minotar.net/skin/MHF_Alex.png" : "https://minotar.net/skin/MHF_Steve.png";
-            sv.loadSkin(url, {model: isSlim ? "slim" : "default"});
+            const src=u||(isS?"https://minotar.net/skin/Alex":"https://minotar.net/skin/Steve");
+            sv.loadSkin(src,{model:isS?"slim":"default"});
             tg.HapticFeedback?.impactOccurred('medium');
         }
 
@@ -86,7 +101,7 @@
         }
 
         function saveS(){tg.HapticFeedback?.notificationOccurred('success')}
-        function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download='skin.png';a.click()}
+        function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download=fN.innerText;a.click()}
         window.onclick=()=>mDD.style.display='none';
     </script>
 </body>
