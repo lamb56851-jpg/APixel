@@ -14,6 +14,11 @@
         .tab{height:26px;background:#252525;border:1px solid #000;border-bottom:none;padding:0 15px;display:flex;align-items:center;font-size:8px;color:#555;border-radius:4px 4px 0 0}
         .tab.active{background:#333;color:#fff;height:30px;position:relative;z-index:11}
         .tab.active::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:3px;background:#333;z-index:12}
+        
+        /* Стили для переименования */
+        .file-name-container{display:flex;align-items:center;gap:6px;cursor:pointer}
+        .pencil-icon{width:8px;height:8px;opacity:0.6;filter:invert(1)}
+
         .toolbar{height:42px;background:#333;border:1px solid #000;border-left:none;border-right:none;display:flex;align-items:center;padding:0 10px;position:relative;z-index:100;gap:8px}
         .toolbar-left,.toolbar-right{display:flex;align-items:center;gap:6px}
         .toolbar-right{flex:1;justify-content:flex-end}
@@ -36,7 +41,12 @@
 <body>
     <div class="tabs-row">
         <div class="tab" onclick="location.href='Workspace.html'"><span>Workspace</span></div>
-        <div class="tab active"><span id="fN">skin.png</span></div>
+        <div class="tab active" onclick="renameF()">
+            <div class="file-name-container">
+                <span id="fN">skin.png</span>
+                <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" class="pencil-icon">
+            </div>
+        </div>
     </div>
     <div class="toolbar">
         <div class="toolbar-left">
@@ -51,17 +61,16 @@
             <div class="btn-ui" onclick="toggleL()"><span style="color:#888">LAYERS: </span><span id="lSt" style="margin-left:4px">ON</span></div>
         </div>
         <div class="toolbar-right">
-            <div class="btn-ui" onclick="sU.click()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/download-icon-svg-download-png-14350272.png?f=webp&w=512" class="btn-icon"></div>
             <div class="btn-ui" onclick="saveS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon"></div>
             <div class="btn-ui" onclick="expS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon"></div>
         </div>
     </div>
-    <input type="file" id="sU" accept="image/png" style="display:none">
     <main><div class="view-w"><div id="skin_container"></div></div></main>
     <div class="status-bar"><span>MODE: PREVIEW</span><span>RES: 64x64</span></div>
     <script>
         const tg=window.Telegram.WebApp;tg.expand();tg.disableVerticalSwipes();
-        let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/Steve",alpha:true});
+        // MHF_Steve — классический скин, Alex — новый
+        let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/MHF_Steve.png",alpha:true});
         document.getElementById("skin_container").appendChild(sv.canvas);
         let ctrl=skinview3d.createOrbitControls(sv);
         sv.zoom=3.5;sv.camera.position.set(0,10,30);sv.animation=new skinview3d.WalkingAnimation();
@@ -71,25 +80,20 @@
         function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=w.clientWidth/w.clientHeight;sv.camera.updateProjectionMatrix()}
         window.addEventListener('resize',res);res();
 
-        sU.onchange=e=>{
-            const f=e.target.files[0];if(!f)return;
-            fN.innerText=f.name;const r=new FileReader();
-            r.onload=ev=>{
-                const i=new Image();i.onload=()=>{
-                    const c=document.createElement('canvas');const x=c.getContext('2d');
-                    c.width=i.width;c.height=i.height;x.drawImage(i,0,0);
-                    const isSlim=x.getImageData(50,16,1,1).data[3]===0;
-                    setM(isSlim?'ALEX':'STEVE',isSlim,ev.target.result);
-                };i.src=ev.target.result;
-            };r.readAsDataURL(f);
-        };
+        function renameF(){
+            tg.HapticFeedback?.impactOccurred('light');
+            let n = prompt("ENTER FILE NAME:", fN.innerText.replace('.png',''));
+            if(n != null && n.trim() !== "") {
+                fN.innerText = n.substring(0, 20).toLowerCase() + ".png";
+            }
+        }
 
         function tDD(e){e.stopPropagation();mDD.style.display=mDD.style.display==='flex'?'none':'flex';if(mDD.style.display==='flex')tg.HapticFeedback?.impactOccurred('light')}
         
-        function setM(m,isS,u){
+        function setM(m, isSlim){
             mN.innerText=m;
-            const src=u||(isS?"https://minotar.net/skin/Alex":"https://minotar.net/skin/Steve");
-            sv.loadSkin(src,{model:isS?"slim":"default"});
+            const url = isSlim ? "https://minotar.net/skin/Alex" : "https://minotar.net/skin/MHF_Steve.png";
+            sv.loadSkin(url, {model: isSlim ? "slim" : "default"});
             tg.HapticFeedback?.impactOccurred('medium');
         }
 
