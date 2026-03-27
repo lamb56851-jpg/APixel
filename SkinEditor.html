@@ -14,100 +14,88 @@
         .tab{height:26px;background:#252525;border:1px solid #000;border-bottom:none;padding:0 15px;display:flex;align-items:center;font-size:8px;color:#555;border-radius:4px 4px 0 0;cursor:pointer}
         .tab.active{background:#333;color:#fff;height:30px;position:relative;z-index:11}
         .tab.active::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:3px;background:#333;z-index:12}
-        .toolbar{height:42px;background:#333;border:1px solid #000;border-left:none;border-right:none;display:flex;align-items:center;padding:0 10px;position:relative;z-index:100;gap:8px}
-        .toolbar-left,.toolbar-right{display:flex;align-items:center;gap:6px}
-        .toolbar-right{flex:1;justify-content:flex-end}
-        .back-btn{position:relative;margin-left:15px;padding:0 12px;background:#3d3d3d;border:1px solid #111;border-left:none;height:30px;color:#fff;font-size:8px;display:flex;align-items:center}
+        .toolbar{height:42px;background:#333;border-bottom:1px solid #000;display:flex;align-items:center;padding:0 10px;z-index:100;gap:8px}
+        .btn-ui{height:38px;min-width:38px;background:#3d3d3d;border:1px solid #111;box-shadow:inset 1px 1px 0 #555,inset -1px -1px 0 #222;display:flex;align-items:center;justify-content:center;padding:0 10px;font-size:8px;color:#fff;cursor:pointer}
+        .btn-ui.active{background:#111;box-shadow:inset 1px 1px 3px #000;border-color:#444}
+        .back-btn{position:relative;margin-left:15px;padding:0 10px;background:#3d3d3d;border:1px solid #111;border-left:none;height:30px;color:#fff;font-size:8px;display:flex;align-items:center}
         .back-btn::before{content:"";position:absolute;left:-15px;top:-1px;border-style:solid;border-width:15px 15px 15px 0;border-color:transparent #111 transparent transparent}
         .back-btn::after{content:"";position:absolute;left:-13px;top:0;border-style:solid;border-width:14px 14px 14px 0;border-color:transparent #3d3d3d transparent transparent}
-        .btn-ui{height:34px;background:#3d3d3d;border:1px solid #111;box-shadow:inset 1px 1px 0 #555,inset -1px -1px 0 #222;display:flex;align-items:center;justify-content:center;padding:0 10px;font-size:8px;color:#fff;position:relative;cursor:pointer}
-        .btn-ui.active{background:#222;box-shadow:inset 1px 1px 2px #000;border-color:#555}
-        .dropdown,.layer-menu{position:absolute;top:32px;left:0;width:100%;background:#3d3d3d;border:1px solid #111;display:none;flex-direction:column;z-index:200;box-shadow:inset 1px 1px 0 #555}
-        .layer-menu{bottom:calc(100% + 5px);top:auto;left:auto;right:0;width:120px}
-        .dropdown div,.layer-item{padding:12px;border-bottom:1px solid #111;color:#fff;text-align:center;font-size:7px;display:flex;justify-content:space-between}
-        .btn-icon{width:18px;height:18px;filter:brightness(0) invert(1)}
-        main{flex:1;display:flex;justify-content:center;align-items:center;background:#141414}
-        .view-w{width:280px;height:280px;background:#1a1a1a;border:2px solid #000;position:relative;overflow:hidden}
-        .view-w::before{content:"";position:absolute;width:100%;height:100%;background-image:linear-gradient(45deg,#222 25%,transparent 25%),linear-gradient(-45deg,#222 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#222 75%),linear-gradient(-45deg,transparent 75%,#222 75%);background-size:20px 20px}
+        .info-ui{height:30px;background:#2b2b2b;border:1px solid #111;display:flex;align-items:center;padding:0 8px;font-size:7px;color:#888}
+        .btn-icon{width:20px;height:20px;filter:brightness(0) invert(1)}
+        main{flex:1;display:flex;justify-content:center;align-items:center;background:#121212;overflow:hidden}
+        .view-w{width:90%;aspect-ratio:1/1;max-height:80%;background:#1a1a1a;border:3px solid #000;position:relative}
+        .view-w::before{content:"";position:absolute;inset:0;background-image:linear-gradient(45deg,#222 25%,transparent 25%),linear-gradient(-45deg,#222 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#222 75%),linear-gradient(-45deg,transparent 75%,#222 75%);background-size:20px 20px}
         #skin_container{width:100%;height:100%;position:absolute}
-        .edit-panel{background:rgba(45,45,45,0.95);border-top:1px solid #000;padding:15px 10px;display:flex;flex-direction:column;gap:15px}
+        .edit-panel{background:rgba(45,45,45,0.95);backdrop-filter:blur(10px);border-top:2px solid #000;padding:15px 10px;display:flex;flex-direction:column;gap:15px;z-index:150}
         .context-row{display:flex;justify-content:space-between;align-items:center}
-        .sl-group{display:flex;align-items:center;gap:8px;font-size:8px;color:#888}
-        .sl{width:60px;height:6px;-webkit-appearance:none;background:#111;border-radius:3px}
+        .sl-g{display:flex;align-items:center;gap:8px;font-size:8px;color:#eee}
+        .sl{width:70px;height:6px;-webkit-appearance:none;background:#000;border-radius:3px}
         .sl::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:#fff;border-radius:50%}
-        .tools-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-        .color-selector{display:flex;align-items:center;gap:10px;background:#2b2b2b;padding:6px;border:1px solid #111;height:40px}
+        .tools-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+        .color-selector{display:flex;align-items:center;gap:10px;background:#1a1a1a;padding:5px 10px;border:1px solid #000;height:40px}
         .color-preview{width:22px;height:22px;border:1px solid #000;background:#fff}
-        .recent-colors{display:flex;gap:4px;border-left:1px solid #444;padding-left:8px}
         .r-col{width:16px;height:16px;border:1px solid #000}
-        .status-bar{height:25px;background:#2b2b2b;border-top:1px solid #111;display:flex;align-items:center;padding:0 12px;font-size:7px;color:#555;justify-content:space-between}
+        .dropdown,.layer-menu{position:absolute;bottom:100%;background:#3d3d3d;border:1px solid #000;display:none;flex-direction:column;min-width:120px;box-shadow:0 -5px 15px rgba(0,0,0,0.5)}
+        .dropdown div,.layer-item{padding:12px;border-bottom:1px solid #222;font-size:8px;display:flex;justify-content:space-between;cursor:pointer}
+        .status-bar{height:25px;background:#1a1a1a;border-top:1px solid #000;display:flex;align-items:center;padding:0 12px;font-size:7px;color:#555;justify-content:space-between}
     </style>
 </head>
 <body>
     <div class="tabs-row"><div class="tab" onclick="location.href='Workspace.html'"><span>Workspace</span></div><div class="tab active" onclick="renameF()"><div class="file-name-container"><span id="fN">skin.png</span><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/edit-icon-svg-download-png-14350273.png?f=webp&w=512" class="pencil-icon"></div></div></div>
     <div class="toolbar">
-        <div class="toolbar-left">
-            <div class="back-btn" onclick="location.href='index.html'">BACK</div>
-            <div class="btn-ui" onclick="tDD(event,'mDD')"><span id="mN">STEVE</span><span style="margin-left:5px">></span><div id="mDD" class="dropdown"><div onclick="setM('STEVE',false)">STEVE</div><div onclick="setM('ALEX',true)">ALEX</div></div></div>
-            <div class="btn-ui" onclick="toggleOuter()"><span style="color:#888">OUTER:</span><span id="lSt" style="margin-left:4px">ON</span></div>
-            <div class="btn-ui" onclick="tg.HapticFeedback?.impactOccurred('light')"><img src="https://cdn-icons-png.flaticon.com/512/8254/8254111.png" style="width:20px;height:20px"></div>
-        </div>
-        <div class="toolbar-right">
-            <div class="btn-ui" onclick="saveS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon"></div>
-            <div class="btn-ui" onclick="impS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/download-icon-svg-download-png-14350272.png?f=webp&w=512" class="btn-icon"></div>
-            <div class="btn-ui" onclick="expS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon"></div>
-            <input type="file" id="skinImport" accept="image/png" style="display:none" onchange="handleImport(event)">
-        </div>
+        <div class="back-btn" onclick="location.href='index.html'">BACK</div>
+        <div class="info-ui">POS:<b id="pT">0 0 0</b></div>
+        <div class="btn-ui" style="position:relative" onclick="tDD(event,'mDD')"><span id="mN">STEVE</span><div id="mDD" class="dropdown" style="bottom:auto;top:100%"><div onclick="setM('STEVE',false)">STEVE</div><div onclick="setM('ALEX',true)">ALEX</div></div></div>
+        <div class="btn-ui" onclick="toggleL()"><span id="lSt" style="color:#fff">OUTER ON</span></div>
+        <div class="btn-ui" style="margin-left:auto"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon" onclick="saveS()"></div>
+        <div class="btn-ui"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon" onclick="expS()"></div>
     </div>
     <main><div class="view-w"><div id="skin_container"></div></div></main>
     <div class="edit-panel">
         <div class="context-row">
-            <div style="display:flex;gap:15px">
-                <div class="sl-group">SIZE<input type="range" min="1" max="10" value="1" class="sl"></div>
-                <div class="sl-group">OPC<input type="range" min="0" max="100" value="100" class="sl"></div>
-            </div>
-            <div style="display:flex;gap:6px"><div class="btn-ui">↶</div><div class="btn-ui">↷</div></div>
+            <div style="display:flex;gap:15px"><div class="sl-g">SIZE<input type="range" min="1" max="10" value="1" class="sl"></div><div class="sl-g">OPC<input type="range" min="0" max="100" value="100" class="sl"></div></div>
+            <div style="display:flex;gap:5px"><div class="btn-ui">↶</div><div class="btn-ui">↷</div></div>
         </div>
         <div class="tools-row">
-            <div class="color-selector">
-                <div id="cP" class="color-preview" onclick="document.getElementById('cI').click()"></div>
+            <div class="color-selector" onclick="document.getElementById('cI').click()">
+                <div id="cP" class="color-preview"></div>
+                <div style="display:flex;gap:3px" id="rC"></div>
                 <input type="color" id="cI" style="display:none" onchange="uC(this.value)">
-                <div class="recent-colors" id="rC"></div>
             </div>
             <div style="display:flex;gap:5px">
                 <div class="btn-ui active" id="t_brush" onclick="sT('brush')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/paint-brush-icon-svg-download-png-14350322.png?f=webp&w=512" class="btn-icon"></div>
                 <div class="btn-ui" id="t_eraser" onclick="sT('eraser')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/eraser-icon-svg-download-png-14350275.png?f=webp&w=512" class="btn-icon"></div>
                 <div class="btn-ui" id="t_bucket" onclick="sT('bucket')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/paint-bucket-icon-svg-download-png-14350323.png?f=webp&w=512" class="btn-icon"></div>
-                <div class="btn-ui" id="t_picker" onclick="sT('picker')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/zoom-in-icon-svg-download-png-14350385.png?f=webp&w=512" class="btn-icon"></div>
+                <div class="btn-ui" style="position:relative" onclick="tDD(event,'lM')">
+                    <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/layers-icon-svg-download-png-14350299.png?f=webp&w=512" class="btn-icon">
+                    <div id="lM" class="layer-menu"></div>
+                </div>
             </div>
-            <div class="btn-ui" onclick="tDD(event,'lM')"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/layers-icon-svg-download-png-14350299.png?f=webp&w=512" class="btn-icon"><div id="lM" class="layer-menu"></div></div>
         </div>
     </div>
-    <div class="status-bar"><span>MODE: EDIT</span><span id="pT">0 0 0</span><span>RES: 64x64</span></div>
+    <div class="status-bar"><span>MODE: EDITING</span><span id="resT">64x64</span></div>
     <script>
         const tg=window.Telegram.WebApp;tg.expand();tg.disableVerticalSwipes();
-        let sv=new skinview3d.SkinViewer({width:280,height:280,skin:"https://minotar.net/skin/MHF_Steve.png",model:"default",alpha:true});
+        let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/MHF_Steve.png",model:"default",alpha:true});
         document.getElementById("skin_container").appendChild(sv.canvas);
-        let ctrl=skinview3d.createOrbitControls(sv);sv.zoom=3.5;sv.camera.position.set(0,10,30);sv.animation=new skinview3d.WalkingAnimation();
-        ctrl.addEventListener('change',()=>{const c=sv.camera.position;pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`});
-
-        let hist=['#ff0000','#00ff00','#0000ff','#ffff00'];
+        let ctrl=skinview3d.createOrbitControls(sv);sv.zoom=4;sv.camera.position.set(0,10,30);
+        function upP(){const c=sv.camera.position;pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`}
+        ctrl.addEventListener('change',upP);upP();
+        function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=1;sv.camera.updateProjectionMatrix()}
+        window.addEventListener('resize',res);res();
+        let hist=['#ff0000','#00ff00','#0000ff'];
         function rDR(){rC.innerHTML=hist.map(c=>`<div class="r-col" style="background:${c}" onclick="uC('${c}',true)"></div>`).join('')} rDR();
-        function uC(h,f){cP.style.background=h;if(!hist.includes(h)){hist.unshift(h);hist.pop();rDR()}if(f)event.stopPropagation();tg.HapticFeedback?.impactOccurred('light')}
-        function sT(t){['brush','eraser','bucket','picker'].forEach(x=>document.getElementById(`t_${x}`).classList.remove('active'));document.getElementById(`t_${t}`).classList.add('active');tg.HapticFeedback?.impactOccurred('light')}
-        
+        function uC(h,f){cP.style.background=h;if(!hist.includes(h)){hist.unshift(h);hist.pop();rDR()}if(f)event?.stopPropagation();tg.HapticFeedback?.impactOccurred('light')}
+        function sT(t){['brush','eraser','bucket'].forEach(x=>document.getElementById(`t_${x}`).classList.remove('active'));document.getElementById(`t_${t}`).classList.add('active');tg.HapticFeedback?.impactOccurred('light')}
         const pts={head:'HEAD',body:'BODY',rightArm:'R-ARM',leftArm:'L-ARM',rightLeg:'R-LEG',leftLeg:'L-LEG'};
-        let lMH='';for(let p in pts)lMH+=`<div class="layer-item" onclick="tP('${p}',this,event)"><span>${pts[p]}</span><span>ON</span></div>`;document.getElementById('lM').innerHTML=lMH;
-        function tP(p,el,e){e.stopPropagation();let o=sv.playerObject.skin[p];o.visible=!o.visible;el.children[1].innerText=o.visible?'ON':'OFF';el.children[1].style.color=o.visible?'#fff':'#888';tg.HapticFeedback?.impactOccurred('light')}
-        
-        function tDD(e,id){e.stopPropagation();let m=document.getElementById(id);document.querySelectorAll('.dropdown,.layer-menu').forEach(d=>d!==m?d.style.display='none':0);m.style.display=m.style.display==='flex'?'none':'flex'}
-        function toggleOuter(){const on=lSt.innerText==="ON";lSt.innerText=on?"OFF":"ON";lSt.style.color=on?"#888":"#fff";Object.keys(pts).forEach(p=>sv.playerObject.skin[p].outerLayer.visible=!on);tg.HapticFeedback?.impactOccurred('light')}
+        let lMH='';for(let p in pts)lMH+=`<div class="layer-item" onclick="tP('${p}',this,event)"><span>${pts[p]}</span><b style="color:#fff">ON</b></div>`;document.getElementById('lM').innerHTML=lMH;
+        function tP(p,el,e){e.stopPropagation();let o=sv.playerObject.skin[p];o.visible=!o.visible;el.querySelector('b').innerText=o.visible?'ON':'OFF';el.querySelector('b').style.color=o.visible?'#fff':'#888';tg.HapticFeedback?.impactOccurred('light')}
+        function tDD(e,id){e.stopPropagation();let m=document.getElementById(id);let v=m.style.display==='flex';document.querySelectorAll('.dropdown,.layer-menu').forEach(d=>d.style.display='none');m.style.display=v?'none':'flex';tg.HapticFeedback?.impactOccurred('light')}
+        function toggleL(){const on=lSt.innerText.includes("ON");lSt.innerText=on?"OUTER OFF":"OUTER ON";lSt.style.color=on?"#888":"#fff";Object.keys(pts).forEach(p=>sv.playerObject.skin[p].outerLayer.visible=!on);tg.HapticFeedback?.impactOccurred('light')}
         function setM(m,s){mN.innerText=m;sv.loadSkin(s?"https://minotar.net/skin/Alex":"https://minotar.net/skin/MHF_Steve.png",{model:s?"slim":"default"});tg.HapticFeedback?.impactOccurred('medium')}
-        function renameF(){let n=prompt("NAME:",fN.innerText);if(n)fN.innerText=n.toLowerCase()+".png"}
+        function renameF(){let n=prompt("FILE NAME:",fN.innerText.replace('.png',''));if(n)fN.innerText=n.toLowerCase()+".png"}
         function saveS(){tg.HapticFeedback?.notificationOccurred('success')}
         function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download=fN.innerText;a.click()}
-        function impS(){document.getElementById('skinImport').click()}
-        function handleImport(event){const f=event.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{sv.loadSkin(e.target.result,{model:mN.innerText==='ALEX'?"slim":"default"});tg.HapticFeedback?.notificationOccurred('success')};r.readAsDataURL(f)}
         window.onclick=()=>document.querySelectorAll('.dropdown,.layer-menu').forEach(d=>d.style.display='none');
     </script>
 </body>
