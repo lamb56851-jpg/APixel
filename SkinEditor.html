@@ -22,7 +22,7 @@
 
         body { 
             display: flex; flex-direction: column; 
-            padding-top: 85px; /* Отступ сверху по твоему запросу */
+            padding-top: 85px; 
         }
 
         /* Вкладки */
@@ -49,7 +49,7 @@
         }
 
         .tab.active {
-            background: #333; /* Сливается с тулбаром */
+            background: #333; 
             color: #fff;
             height: 30px;
             border: 1px solid #000;
@@ -86,6 +86,59 @@
             z-index: 10;
         }
 
+        /* Левая часть тулбара (Цвет и Позиция) */
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1; /* Занимает всё доступное место слева */
+        }
+
+        /* Блок выбора цвета */
+        .color-picker-block {
+            display: flex;
+            align-items: center;
+            height: 30px;
+            background: #2b2b2b; /* Немного светлее фона тулбара */
+            border: 1px solid #111;
+            padding-right: 6px;
+        }
+
+        .selected-color-preview {
+            width: 30px;
+            height: 28px;
+            background: #fff; /* Выбранный цвет по умолчанию */
+            border-right: 1px solid #111;
+            cursor: pointer;
+        }
+
+        .color-scheme-text {
+            font-size: 7px;
+            color: #888;
+            padding-left: 6px;
+            letter-spacing: 1px;
+        }
+
+        /* Блок позиции */
+        .position-block {
+            display: flex;
+            align-items: center;
+            height: 30px;
+            background: #2b2b2b;
+            border: 1px solid #111;
+            padding: 0 8px;
+            font-size: 7px;
+            color: #888;
+            letter-spacing: 1px;
+        }
+
+        /* Правая часть тулбара (Кнопки действий) */
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         .tool-btn {
             height: 30px;
             background: #3d3d3d;
@@ -97,6 +150,12 @@
             padding: 0 10px;
             font-size: 8px;
             color: #fff;
+            cursor: pointer;
+        }
+
+        .tool-btn:active {
+            box-shadow: inset -1px -1px 0 #555, inset 1px 1px 0 #222;
+            transform: translateY(1px);
         }
 
         .divider { width: 1px; height: 22px; background: #1a1a1a; margin: 0 4px; border-right: 1px solid #444; }
@@ -108,7 +167,6 @@
             flex-direction: column;
             align-items: center;
             background: #1a1a1a;
-            /* Убираем отступ сверху, чтобы окно прилипло к шапке */
             padding-top: 0; 
         }
 
@@ -118,7 +176,7 @@
             height: 50%; 
             background: #1a1a1a;
             border: 2px solid #000;
-            border-top: none; /* Чтобы бесшовно прилегало к черной обводке шапки */
+            border-top: none; 
             box-shadow: inset 2px 2px 0 #222;
             position: relative;
             overflow: hidden;
@@ -127,7 +185,7 @@
             justify-content: center;
         }
 
-        /* Та самая пиксельная сетка */
+        /* Пиксельная сетка */
         .viewport-window::before {
             content: "";
             position: absolute;
@@ -176,26 +234,41 @@
     </div>
 
     <div class="toolbar">
-        <div class="tool-btn" onclick="goBack()">BACK</div>
-        <div class="divider"></div>
-        
-        <div class="tool-btn" onclick="triggerImport()">
-            <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/download-icon-svg-download-png-14350272.png?f=webp&w=512" class="btn-icon">
-            <span>IMPORT</span>
+        <div class="toolbar-left">
+            <div class="color-picker-block">
+                <div class="selected-color-preview" id="colorPreview" onclick="openColorPicker()"></div>
+                <div class="color-scheme-text" id="colorScheme">RGB: 255 255 255</div>
+            </div>
+            
+            <div class="position-block">
+                <span>POS: <b id="posText">0 0 0</b></span>
+            </div>
         </div>
 
-        <div class="tool-btn">
-            <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon">
-            <span>EXPORT</span>
-        </div>
+        <div class="toolbar-right">
+            <div class="tool-btn" onclick="triggerImport()">
+                <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/download-icon-svg-download-png-14350272.png?f=webp&w=512" class="btn-icon">
+                <span>IMPORT</span>
+            </div>
 
-        <div class="tool-btn">
-            <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon">
-            <span>SAVE</span>
+            <div class="tool-btn">
+                <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon">
+                <span>EXPORT</span>
+            </div>
+
+            <div class="tool-btn">
+                <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon">
+                <span>SAVE</span>
+            </div>
+
+            <div class="divider"></div>
+            <div class="tool-btn" onclick="goBack()">BACK</div>
         </div>
     </div>
 
     <input type="file" id="skin_upload" accept="image/png" style="display: none;">
+    
+    <input type="color" id="colorInput" value="#ffffff" style="display: none;">
 
     <main>
         <div class="viewport-window">
@@ -218,7 +291,7 @@
             width: 300,
             height: 300, 
             skin: "https://minotar.net/skin/MHF_Steve.png",
-            alpha: true // Нужно для видимости сетки
+            alpha: true
         });
         
         document.getElementById("skin_container").appendChild(skinViewer.canvas);
@@ -228,11 +301,23 @@
         control.enableZoom = true;
         control.enablePan = false;
 
-        skinViewer.zoom = 0.55; 
+        // Стив стал крупнее
+        skinViewer.zoom = 0.7; 
         skinViewer.animation = new skinview3d.WalkingAnimation();
         skinViewer.animation.speed = 0.4;
 
-        // Центрирование при ресайзе
+        // Обновление координат при вращении/зуме
+        function updatePositionDisplay() {
+            const cam = skinViewer.camera.position;
+            const x = Math.round(cam.x);
+            const y = Math.round(cam.y);
+            const z = Math.round(cam.z);
+            document.getElementById('posText').innerText = `${x} ${y} ${z}`;
+        }
+        control.addEventListener('change', updatePositionDisplay);
+        updatePositionDisplay(); // Первичная установка
+
+        // Ресайз
         function resize() {
             const win = document.querySelector('.viewport-window');
             skinViewer.width = win.clientWidth;
@@ -241,7 +326,29 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // Логика импорта скина
+        // Логика выбора цвета
+        const colorInput = document.getElementById('colorInput');
+        const colorPreview = document.getElementById('colorPreview');
+        const colorScheme = document.getElementById('colorScheme');
+
+        function openColorPicker() {
+            colorInput.click();
+        }
+
+        colorInput.addEventListener('input', function(e) {
+            const color = e.target.value;
+            colorPreview.style.background = color;
+            
+            // Преобразование HEX в RGB для отображения схемы
+            const r = parseInt(color.substr(1,2), 16);
+            const g = parseInt(color.substr(3,2), 16);
+            const b = parseInt(color.substr(5,2), 16);
+            colorScheme.innerText = `RGB: ${r} ${g} ${b}`;
+            
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+        });
+
+        // Логика импорта
         function triggerImport() {
             document.getElementById('skin_upload').click();
         }
