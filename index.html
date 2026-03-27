@@ -11,7 +11,7 @@
         body { background-color: #1a1a1a; color: #fff; font-family: 'Common Pixel', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
         .home-banner { position: relative; width: 100%; height: 200px; overflow: hidden; border-bottom: 2px solid #111; perspective: 1200px; }
-        .home-pic { width: 120%; height: 120%; object-fit: cover; position: absolute; top: -10%; left: -10%; will-change: transform; }
+        .home-pic { width: 120%; height: 120%; object-fit: cover; position: absolute; top: -10%; left: -10%;象征 will-change: transform; }
         
         .banner-nav { position: absolute; left: 15px; bottom: 12px; font-size: 18px; display: flex; align-items: center; gap: 10px; text-shadow: 2px 2px 0px #000; z-index: 5; }
         .nav-secondary { display: flex; align-items: center; gap: 10px; opacity: 0.7; }
@@ -25,8 +25,8 @@
 
         @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
 
-        .card { position: relative; width: 100%; height: 110px; background-color: #2b2b2b; border: 1px solid #111; border-radius: 4px; box-shadow: inset 3.5px 3.5px 0px #3d3d3d, inset -3.5px -3.5px 0px #1a1a1a; padding: 15px; display: flex; align-items: center; cursor: pointer; }
-        .card:active { transform: scale(0.96); transition: 0.1s; }
+        .card { position: relative; width: 100%; height: 110px; background-color: #2b2b2b; border: 1px solid #111; border-radius: 4px; box-shadow: inset 3.5px 3.5px 0px #3d3d3d, inset -3.5px -3.5px 0px #1a1a1a; padding: 15px; display: flex; align-items: center; cursor: pointer; transition: transform 0.1s; }
+        .card:active { transform: scale(0.96); }
         .card-content { width: 65%; z-index: 2; }
         .card-title { font-size: 16px; margin-bottom: 8px; text-transform: uppercase; }
         .card-desc { font-size: 10px; line-height: 1.4; color: #7a7a7a; }
@@ -41,36 +41,65 @@
     </style>
 </head>
 <body>
-    <div class="home-banner"><img src="Logos/HomePic.PNG" class="home-pic" id="p">
-        <div class="banner-nav"><span>APIXEL</span><div class="nav-secondary"><div class="nav-divider"></div><span>HOME</span></div></div>
+    <div class="home-banner">
+        <img src="Logos/HomePic.PNG" class="home-pic" id="p">
+        <div class="banner-nav">
+            <span>APIXEL</span>
+            <div class="nav-secondary">
+                <div class="nav-divider"></div>
+                <span>HOME</span>
+            </div>
+        </div>
     </div>
+
     <main>
         <div class="card-wrapper">
-            <div class="card" onclick="location.href='skin_editor.html'"><div class="card-content"><div class="card-title">Create Skin</div><div class="card-desc">Create your own Minecraft™ skin. You also can edit or choose skin from the list.</div></div>
+            <div class="card" onclick="navigateTo('SkinEditor.html')">
+                <div class="card-content">
+                    <div class="card-title">Create Skin</div>
+                    <div class="card-desc">Create your own Minecraft™ skin. You also can edit or choose skin from the list.</div>
+                </div>
                 <div class="img-mask"><img src="Logos/skin.PNG" class="card-img img-skin"></div>
             </div>
             <div class="card-footer-text">Skins creating rules. <span>Learn more ></span></div>
         </div>
+
         <div class="card-wrapper">
-            <div class="card"><div class="card-content"><div class="card-title">Create Block</div><div class="card-desc">Design unique textures and properties for new in-game blocks. Real-time preview.</div></div>
+            <div class="card" onclick="navigateTo('BlockEditor.html')">
+                <div class="card-content">
+                    <div class="card-title">Create Block</div>
+                    <div class="card-desc">Design unique textures and properties for new in-game blocks. Real-time preview.</div>
+                </div>
                 <div class="img-mask"><img src="Logos/block.PNG" class="card-img img-block"></div>
             </div>
             <div class="card-footer-text">Block texture guidelines. <span>Learn more ></span></div>
         </div>
+
         <div class="card-wrapper">
-            <div class="card"><div class="card-content"><div class="card-title">Create Item</div><div class="card-desc">Add custom weapons, tools, and rare artifacts to your world with ease.</div></div>
+            <div class="card" onclick="navigateTo('ItemEditor.html')">
+                <div class="card-content">
+                    <div class="card-title">Create Item</div>
+                    <div class="card-desc">Add custom weapons, tools, and rare artifacts to your world with ease.</div>
+                </div>
                 <div class="img-mask"><img src="Logos/item.PNG" class="card-img img-item"></div>
             </div>
             <div class="card-footer-text">Items & Artifacts policy. <span>Learn more ></span></div>
         </div>
     </main>
+
     <script>
-        const tg = window.Telegram.WebApp; tg.expand(); tg.ready();
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+
+        // Параллакс эффект для баннера
         const p = document.getElementById('p');
         let curX = 0, curY = 0, tarX = 0, tarY = 0;
 
         function update() {
-            curX += (tarX - curX) * 0.1; curY += (tarY - curY) * 0.1;
+            curX += (tarX - curX) * 0.1;
+            curY += (tarY - curY) * 0.1;
             p.style.transform = `translate(${curX}px, ${curY}px) scale(1.15)`;
             requestAnimationFrame(update);
         }
@@ -81,8 +110,26 @@
             tarY = Math.max(Math.min(e.beta - 45, 20), -20) * -1;
         });
 
-        document.querySelectorAll('.card').forEach(c => c.onclick = () => { if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light'); });
-        document.body.onclick = () => { if(typeof DeviceOrientationEvent !== 'undefined' && DeviceOrientationEvent.requestPermission) DeviceOrientationEvent.requestPermission(); };
+        // Функция перехода: вибрация + замена страницы в истории
+        function navigateTo(url) {
+            // Виброотклик Telegram
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+
+            // Небольшая задержка перед переходом для ощущения клика
+            setTimeout(() => {
+                // replace() заменяет текущую запись в истории, "стирая" путь назад
+                window.location.replace(url);
+            }, 100);
+        }
+
+        // Запрос разрешений на гироскоп для iOS при первом клике
+        document.body.onclick = () => {
+            if (typeof DeviceOrientationEvent !== 'undefined' && DeviceOrientationEvent.requestPermission) {
+                DeviceOrientationEvent.requestPermission();
+            }
+        };
     </script>
 </body>
 </html>
