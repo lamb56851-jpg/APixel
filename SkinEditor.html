@@ -28,7 +28,7 @@
         .btn-icon{width:14px;height:14px;filter:brightness(0) invert(1)}
         main{flex:1;display:flex;flex-direction:column;align-items:center;padding-top:20px}
         .view-w{width:calc(100% - 40px);height:50%;background:#1a1a1a;border:2px solid #000;box-shadow:inset 2px 2px 0 #222;position:relative;overflow:hidden}
-        .view-w::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(45deg,#222 25%,transparent 25%),linear-gradient(-45deg,#222 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#222 75%),linear-gradient(-45deg,transparent 75%,#222 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0px}
+        .view-w::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(45deg,#222 25%,transparent 25%),linear-gradient(-45deg,#222 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#222 75%),linear-gradient(-45deg,transparent 75%,#222 75%);background-size:20px 20px}
         #skin_container{width:100%;height:100%;position:absolute;display:flex;justify-content:center;align-items:center}
         .status-bar{height:25px;background:#2b2b2b;border-top:1px solid #111;display:flex;align-items:center;padding:0 12px;font-size:7px;color:#555;justify-content:space-between}
     </style>
@@ -36,7 +36,7 @@
 <body>
     <div class="tabs-row">
         <div class="tab" onclick="location.href='Workspace.html'"><span>Workspace</span></div>
-        <div class="tab active"><span>skin.png</span></div>
+        <div class="tab active"><span id="fileNameTab">skin.png</span></div>
     </div>
     <div class="toolbar">
         <div class="toolbar-left">
@@ -61,7 +61,7 @@
         let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/MHF_Steve.png",alpha:true});
         document.getElementById("skin_container").appendChild(sv.canvas);
         let ctrl=skinview3d.createOrbitControls(sv);
-        sv.zoom=3.5; sv.camera.position.set(0, 10, 25); // Стив ОЧЕНЬ близко
+        sv.zoom=3.2; sv.camera.position.set(0, 12, 25); // Приблизил максимально
         sv.animation=new skinview3d.WalkingAnimation();
 
         function upP(){const c=sv.camera.position;pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`}
@@ -69,21 +69,22 @@
         function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=w.clientWidth/w.clientHeight;sv.camera.updateProjectionMatrix()}
         window.addEventListener('resize',res);res();
 
-        // Умный импорт
         sU.onchange=e=>{
             const f=e.target.files[0];
             if(f){
+                fileNameTab.innerText = f.name;
                 const r=new FileReader();
                 r.onload=ev=>{
                     const img = new Image();
                     img.onload = () => {
-                        // Minecraft логика: проверяем прозрачность в области рук для детекта Slim модели
+                        // Определение толщины рук (Slim vs Default)
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
                         canvas.width = img.width; canvas.height = img.height;
                         ctx.drawImage(img, 0, 0);
-                        const p = ctx.getImageData(54, 20, 1, 1).data;
-                        const isSlim = p[3] === 0; // Если пиксель прозрачный - это Alex
+                        // Проверяем пиксель, который есть у Стива, но нет у Алекс (в области правой руки)
+                        const data = ctx.getImageData(50, 16, 1, 1).data;
+                        const isSlim = data[3] === 0; 
                         setM(isSlim ? 'ALEX' : 'STEVE', ev.target.result);
                     };
                     img.src = ev.target.result;
@@ -92,12 +93,12 @@
             }
         };
 
-        function tDD(e){e.stopPropagation();const d=mDD;d.style.display=d.style.display==='flex'?'none':'flex';if(d.style.display==='flex')tg.HapticFeedback?.impactOccurred('light')}
+        function tDD(e){e.stopPropagation();mDD.style.display=mDD.style.display==='flex'?'none':'flex';if(mDD.style.display==='flex')tg.HapticFeedback?.impactOccurred('light')}
         
-        function setM(m, customSkin = null){
-            mN.innerText=m; const isS=m==='STEVE';
-            const skinUrl = customSkin || (isS?"https://minotar.net/skin/MHF_Steve.png":"https://minotar.net/skin/MHF_Alex.png");
-            sv.loadSkin(skinUrl, {model: isS ? "default" : "slim"});
+        function setM(m, src){
+            mN.innerText=m; const isS=(m==='STEVE');
+            const url = src || (isS ? "https://minotar.net/skin/MHF_Steve.png" : "https://minotar.net/skin/MHF_Alex.png");
+            sv.loadSkin(url, {model: isS ? "default" : "slim"});
             tg.HapticFeedback?.impactOccurred('medium');
         }
 
@@ -111,7 +112,7 @@
         }
 
         function saveS(){tg.HapticFeedback?.notificationOccurred('success')}
-        function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download='skin.png';a.click()}
+        function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download=fileNameTab.innerText;a.click()}
         window.onclick=()=>mDD.style.display='none';
         document.addEventListener('touchmove',e=>{if(e.target.closest('#skin_container'))e.preventDefault()},{passive:false});
     </script>
