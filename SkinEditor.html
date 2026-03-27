@@ -25,132 +25,179 @@
             padding-top: var(--tg-safe-area-inset-top, 20px); 
         }
 
-        /* Вкладки над шапкой (как в браузере) */
-        .tabs-container {
+        /* Панель вкладок сверху */
+        .tabs-row {
             display: flex;
             padding: 0 10px;
-            gap: 4px;
+            gap: 2px;
+            height: 28px;
             align-items: flex-end;
-            height: 30px;
         }
 
         .tab {
-            height: 26px;
+            height: 24px;
             background: #2b2b2b;
-            border: 1px solid #111;
+            border: 1px solid #000;
             border-bottom: none;
-            padding: 0 12px;
+            padding: 0 10px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 9px;
-            color: #888;
-            border-radius: 4px 4px 0 0;
+            gap: 6px;
+            font-size: 8px;
+            color: #666;
+            border-radius: 3px 3px 0 0;
         }
 
         .tab.active {
             background: #333;
-            color: #4CAF50;
-            height: 30px;
-            border-top: 2px solid #4CAF50;
-        }
-
-        .tab-icon {
-            width: 12px;
-            height: 12px;
-            object-fit: contain;
-        }
-
-        /* Основная панель (Шапка) */
-        .header { 
-            height: 45px; 
-            display: flex; 
-            align-items: center; 
-            padding: 0 15px; 
-            background-color: #2b2b2b; 
-            border-top: 1px solid #444;
-            border-bottom: 2px solid #111;
-            box-shadow: inset 0 -2px 0px rgba(0,0,0,0.2);
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .back-btn { 
+            color: #fff;
             height: 28px;
-            padding: 0 10px; 
-            background: #3d3d3d; 
-            border: 1px solid #111; 
-            box-shadow: inset 2px 2px 0 #555, inset -2px -2px 0 #1a1a1a;
-            font-size: 9px;
+            border-top: 2px solid #4CAF50;
+            z-index: 2;
+        }
+
+        .tab-icon { width: 10px; height: 10px; opacity: 0.7; }
+
+        /* Верхняя панель инструментов (Шапка) */
+        .toolbar {
+            height: 40px;
+            background: #333;
+            border-top: 1px solid #444;
+            border-bottom: 2px solid #000;
             display: flex;
             align-items: center;
+            padding: 0 10px;
+            gap: 8px;
+        }
+
+        .tool-btn {
+            height: 28px;
+            background: #3d3d3d;
+            border: 1px solid #111;
+            box-shadow: inset 1px 1px 0 #555, inset -1px -1px 0 #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 8px;
+            font-size: 8px;
             cursor: pointer;
         }
-        .back-btn:active { transform: scale(0.95); }
 
-        .breadcrumb {
-            font-size: 9px;
-            color: #555;
-            text-transform: uppercase;
+        .tool-btn:active { box-shadow: inset -1px -1px 0 #555, inset 1px 1px 0 #222; }
+
+        .divider { width: 1px; height: 20px; background: #1a1a1a; margin: 0 2px; }
+
+        /* Рабочая область */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #222;
+            padding: 20px;
         }
 
-        /* Контейнер для 3D */
-        main { 
-            flex: 1; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
+        /* Окно предпросмотра скина (как на рефах) */
+        .viewport-window {
+            width: 100%;
+            max-width: 340px;
+            height: 50%; /* Скин занимает половину экрана */
             background: #1a1a1a;
+            border: 2px solid #000;
+            box-shadow: inset 2px 2px 0 #333;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Имитация сетки фона (прозрачность) */
+        .viewport-window::before {
+            content: "";
+            position: absolute;
+            width: 200%; height: 200%;
+            background-image: linear-gradient(45deg, #1d1d1d 25%, transparent 25%), 
+                              linear-gradient(-45deg, #1d1d1d 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, #1d1d1d 75%), 
+                              linear-gradient(-45deg, transparent 75%, #1d1d1d 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            opacity: 0.5;
+            z-index: 0;
         }
 
         #skin_container {
             width: 100%;
             height: 100%;
-            /* Смещение Стива чуть выше центра для визуального баланса */
-            margin-top: -20px;
+            z-index: 1;
         }
 
-        .controls-hint {
+        .window-label {
             position: absolute;
-            bottom: 20px;
+            top: 5px;
+            left: 8px;
             font-size: 7px;
-            color: #333;
-            letter-spacing: 1px;
+            color: #444;
+            z-index: 2;
+        }
+
+        /* Нижний статус-бар */
+        .status-bar {
+            height: 25px;
+            background: #333;
+            border-top: 1px solid #111;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 7px;
+            color: #777;
+            justify-content: space-between;
         }
     </style>
 </head>
 <body>
 
-    <div class="tabs-container">
-        <div class="tab">
-            <span>Workspace</span>
-        </div>
+    <div class="tabs-row">
+        <div class="tab"><span>Workspace</span></div>
         <div class="tab active">
             <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/edit-icon-svg-download-png-14350273.png?f=webp&w=512" class="tab-icon">
             <span>skin.png</span>
         </div>
     </div>
 
-    <header class="header">
-        <div class="back-btn" onclick="goBack()">BACK</div>
-        <div class="breadcrumb">Editor / Project / Skin</div>
-    </header>
+    <div class="toolbar">
+        <div class="tool-btn" onclick="goBack()">BACK</div>
+        <div class="divider"></div>
+        <div class="tool-btn">FILE</div>
+        <div class="tool-btn">EDIT</div>
+        <div class="tool-btn">VIEW</div>
+    </div>
 
     <main>
-        <div id="skin_container"></div>
-        <div class="controls-hint">3D PREVIEW MODE</div>
+        <div class="viewport-window">
+            <div class="window-label">3D_VIEWPORT_V1</div>
+            <div id="skin_container"></div>
+        </div>
     </main>
+
+    <div class="status-bar">
+        <span>64x64 PX | STEVE_MODEL</span>
+        <span>FPS: 60</span>
+    </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
 
+        // Настройка вьювера
         let skinViewer = new skinview3d.SkinViewer({
-            width: window.innerWidth,
-            height: window.innerHeight - 100, 
-            skin: "https://minotar.net/skin/MHF_Steve.png"
+            width: 340,
+            height: window.innerHeight * 0.5, 
+            skin: "https://minotar.net/skin/MHF_Steve.png",
+            alpha: true // Чтобы видеть фон-сетку
         });
         
         document.getElementById("skin_container").appendChild(skinViewer.canvas);
@@ -160,18 +207,20 @@
         control.enableZoom = true;
         control.enablePan = false;
 
-        // Отдаляем камеру еще сильнее, чтобы Стив был в 2 раза меньше
-        skinViewer.zoom = 0.45; 
-        skinViewer.autoRotate = true;
-        skinViewer.autoRotateSpeed = 0.5;
-
+        // Делаем Стива небольшим внутри его окна
+        skinViewer.zoom = 0.55; 
+        
         skinViewer.animation = new skinview3d.WalkingAnimation();
-        skinViewer.animation.speed = 0.3;
+        skinViewer.animation.speed = 0.4;
 
-        window.addEventListener('resize', () => {
-            skinViewer.width = window.innerWidth;
-            skinViewer.height = window.innerHeight - 100;
-        });
+        // Подгонка размера под окно
+        function resize() {
+            const win = document.querySelector('.viewport-window');
+            skinViewer.width = win.clientWidth;
+            skinViewer.height = win.clientHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
         function goBack() {
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
