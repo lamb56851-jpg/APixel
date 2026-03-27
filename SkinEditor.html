@@ -22,8 +22,7 @@
 
         body { 
             display: flex; flex-direction: column; 
-            /* Смещаем всё на 85px вниз */
-            padding-top: 85px; 
+            padding-top: 85px; /* Отступ сверху по твоему запросу */
         }
 
         /* Вкладки */
@@ -50,13 +49,21 @@
         }
 
         .tab.active {
-            background: #333; /* Тот же цвет, что у toolbar */
+            background: #333; /* Сливается с тулбаром */
             color: #fff;
             height: 30px;
             border: 1px solid #000;
-            border-bottom: none; /* Убираем нижнюю грань, чтобы слиться с тулбаром */
+            border-bottom: none;
             position: relative;
             z-index: 11;
+        }
+
+        .tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: -2px; left: 0; right: 0;
+            height: 3px; background: #333;
+            z-index: 12;
         }
 
         .tab-icon, .btn-icon { 
@@ -69,7 +76,7 @@
         .toolbar {
             height: 42px;
             background: #333;
-            border-top: 1px solid #000; /* Черная рамка для стыковки */
+            border-top: 1px solid #000;
             border-bottom: 2px solid #000;
             display: flex;
             align-items: center;
@@ -77,18 +84,6 @@
             gap: 6px;
             position: relative;
             z-index: 10;
-        }
-
-        /* Костыль для плавного слияния активной вкладки и тулбара */
-        .tab.active::after {
-            content: "";
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #333;
-            z-index: 12;
         }
 
         .tool-btn {
@@ -112,16 +107,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 20px; /* Отступ между шапкой и вьюпортом */
             background: #1a1a1a;
+            /* Убираем отступ сверху, чтобы окно прилипло к шапке */
+            padding-top: 0; 
         }
 
-        /* Окно со стивом */
+        /* Окно со стивом (Viewport) */
         .viewport-window {
-            width: calc(100% - 40px); /* 20px отступы с каждой стороны */
+            width: calc(100% - 40px); /* 20px отступы по бокам */
             height: 50%; 
-            background: #111;
+            background: #1a1a1a;
             border: 2px solid #000;
+            border-top: none; /* Чтобы бесшовно прилегало к черной обводке шапки */
             box-shadow: inset 2px 2px 0 #222;
             position: relative;
             overflow: hidden;
@@ -130,7 +127,30 @@
             justify-content: center;
         }
 
-        #skin_container { width: 100%; height: 100%; position: relative; z-index: 1; }
+        /* Та самая пиксельная сетка */
+        .viewport-window::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(45deg, #222 25%, transparent 25%), 
+                linear-gradient(-45deg, #222 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #222 75%), 
+                linear-gradient(-45deg, transparent 75%, #222 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            z-index: 0;
+        }
+
+        #skin_container { 
+            width: 100%; 
+            height: 100%; 
+            position: relative; 
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         .status-bar {
             height: 25px;
@@ -159,7 +179,7 @@
         <div class="tool-btn" onclick="goBack()">BACK</div>
         <div class="divider"></div>
         
-        <div class="tool-btn">
+        <div class="tool-btn" onclick="triggerImport()">
             <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/download-icon-svg-download-png-14350272.png?f=webp&w=512" class="btn-icon">
             <span>IMPORT</span>
         </div>
@@ -174,6 +194,8 @@
             <span>SAVE</span>
         </div>
     </div>
+
+    <input type="file" id="skin_upload" accept="image/png" style="display: none;">
 
     <main>
         <div class="viewport-window">
@@ -191,18 +213,26 @@
         tg.expand();
         tg.ready();
 
+        // Инициализация вьювера
         let skinViewer = new skinview3d.SkinViewer({
             width: 300,
             height: 300, 
             skin: "https://minotar.net/skin/MHF_Steve.png",
-            alpha: true
+            alpha: true // Нужно для видимости сетки
         });
         
         document.getElementById("skin_container").appendChild(skinViewer.canvas);
-        let control = skinview3d.createOrbitControls(skinViewer);
-        skinViewer.zoom = 0.5; 
-        skinViewer.animation = new skinview3d.WalkingAnimation();
 
+        let control = skinview3d.createOrbitControls(skinViewer);
+        control.enableRotate = true;
+        control.enableZoom = true;
+        control.enablePan = false;
+
+        skinViewer.zoom = 0.55; 
+        skinViewer.animation = new skinview3d.WalkingAnimation();
+        skinViewer.animation.speed = 0.4;
+
+        // Центрирование при ресайзе
         function resize() {
             const win = document.querySelector('.viewport-window');
             skinViewer.width = win.clientWidth;
@@ -210,6 +240,21 @@
         }
         window.addEventListener('resize', resize);
         resize();
+
+        // Логика импорта скина
+        function triggerImport() {
+            document.getElementById('skin_upload').click();
+        }
+
+        document.getElementById('skin_upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => skinViewer.loadSkin(event.target.result);
+                reader.readAsDataURL(file);
+                if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            }
+        });
 
         function goBack() {
             if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
