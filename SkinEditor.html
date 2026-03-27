@@ -14,27 +14,20 @@
         .tab{height:26px;background:#252525;border:1px solid #000;border-bottom:none;padding:0 15px;display:flex;align-items:center;font-size:8px;color:#555;border-radius:4px 4px 0 0}
         .tab.active{background:#333;color:#fff;height:30px;position:relative;z-index:11}
         .tab.active::after{content:"";position:absolute;bottom:-2px;left:0;right:0;height:3px;background:#333;z-index:12}
-        
         .toolbar{height:42px;background:#333;border:1px solid #000;border-left:none;border-right:none;display:flex;align-items:center;padding:0 10px;position:relative;z-index:100;gap:8px}
         .toolbar-left,.toolbar-right{display:flex;align-items:center;gap:6px}
         .toolbar-right{flex:1;justify-content:flex-end}
-
         .back-btn{position:relative;margin-left:15px;padding:0 12px;background:#3d3d3d;border:1px solid #111;border-left:none;height:30px;color:#fff;font-size:8px;display:flex;align-items:center;box-shadow:inset 0 1px 0 #555,inset 0 -1px 0 #222}
         .back-btn::before{content:"";position:absolute;left:-15px;top:-1px;border-style:solid;border-width:15px 15px 15px 0;border-color:transparent #111 transparent transparent}
         .back-btn::after{content:"";position:absolute;left:-13px;top:0;border-style:solid;border-width:14px 14px 14px 0;border-color:transparent #3d3d3d transparent transparent}
-
-        /* Унифицированный стиль кнопок и селектора */
         .btn-ui{height:30px;background:#3d3d3d;border:1px solid #111;box-shadow:inset 1px 1px 0 #555,inset -1px -1px 0 #222;display:flex;align-items:center;justify-content:center;padding:0 8px;font-size:7px;color:#fff;position:relative}
         .info-ui{height:30px;background:#2b2b2b;border:1px solid #111;display:flex;align-items:center;padding:0 8px;font-size:7px;color:#888;letter-spacing:1px}
-        
         .chevron{font-size:10px;transform:rotate(90deg);margin-left:6px;color:#fff}
-        .dropdown{position:absolute;top:34px;left:-1px;width:calc(100% + 2px);background:#3d3d3d;border:1px solid #111;display:none;flex-direction:column;z-index:200;box-shadow:0 4px 10px rgba(0,0,0,0.5)}
+        .dropdown{position:absolute;top:32px;left:-1px;width:calc(100% + 2px);background:#3d3d3d;border:1px solid #111;display:none;flex-direction:column;z-index:200;box-shadow:inset 1px 1px 0 #555}
         .dropdown div{padding:10px;border-bottom:1px solid #111;color:#fff;text-align:center}
-        
         .btn-icon{width:14px;height:14px;filter:brightness(0) invert(1)}
-
         main{flex:1;display:flex;flex-direction:column;align-items:center;padding-top:20px}
-        .view-w{width:calc(100% - 40px);height:55%;background:#1a1a1a;border:2px solid #000;box-shadow:inset 2px 2px 0 #222;position:relative;overflow:hidden}
+        .view-w{width:calc(100% - 40px);height:65%;background:#1a1a1a;border:2px solid #000;box-shadow:inset 2px 2px 0 #222;position:relative;overflow:hidden}
         .view-w::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(45deg,#222 25%,transparent 25%),linear-gradient(-45deg,#222 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#222 75%),linear-gradient(-45deg,transparent 75%,#222 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0px}
         #skin_container{width:100%;height:100%;position:absolute;display:flex;justify-content:center;align-items:center}
         .status-bar{height:25px;background:#2b2b2b;border-top:1px solid #111;display:flex;align-items:center;padding:0 12px;font-size:7px;color:#555;justify-content:space-between}
@@ -49,22 +42,15 @@
         <div class="toolbar-left">
             <div class="back-btn" onclick="location.href='index.html'">BACK</div>
             <div class="info-ui">POS: <b id="pT">0 0 0</b></div>
-            
-            <div class="btn-ui" onclick="tDD(event)">
-                <span id="mN">STEVE</span><span class="chevron">></span>
-                <div id="mDD" class="dropdown">
-                    <div onclick="setM('STEVE')">STEVE</div>
-                    <div onclick="setM('ALEX')">ALEX</div>
-                </div>
+            <div class="btn-ui" onclick="tDD(event)"><span id="mN">STEVE</span><span class="chevron">></span>
+                <div id="mDD" class="dropdown"><div onclick="setM('STEVE')">STEVE</div><div onclick="setM('ALEX')">ALEX</div></div>
             </div>
-
-            <div class="btn-ui" onclick="toggleLayers()" id="layerBtn">
-                <span style="color:#aaa">LAYERS: </span><span id="layerSt" style="margin-left:4px">ON</span>
-            </div>
+            <div class="btn-ui" onclick="toggleL()"><span style="color:#888">LAYERS: </span><span id="lSt" style="margin-left:4px">ON</span></div>
         </div>
         <div class="toolbar-right">
             <div class="btn-ui" onclick="sU.click()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/download-icon-svg-download-png-14350272.png?f=webp&w=512" class="btn-icon"></div>
-            <div class="btn-ui"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon"></div>
+            <div class="btn-ui" onclick="saveS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon"></div>
+            <div class="btn-ui" onclick="expS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon"></div>
         </div>
     </div>
     <input type="file" id="sU" accept="image/png" style="display:none">
@@ -75,44 +61,20 @@
         let sv=new skinview3d.SkinViewer({width:300,height:300,skin:"https://minotar.net/skin/MHF_Steve.png",alpha:true});
         document.getElementById("skin_container").appendChild(sv.canvas);
         let ctrl=skinview3d.createOrbitControls(sv);
-        sv.zoom=1.6; sv.camera.position.set(0, 15, 45);
+        sv.zoom=2.5; sv.camera.position.set(0, 10, 30); // Модель на весь экран
         sv.animation=new skinview3d.WalkingAnimation();
 
         function upP(){const c=sv.camera.position;pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`}
         ctrl.addEventListener('change',upP);upP();
         function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=w.clientWidth/w.clientHeight;sv.camera.updateProjectionMatrix()}
         window.addEventListener('resize',res);res();
-
         sU.onchange=e=>{const f=e.target.files[0];if(f){const r=new FileReader();r.onload=ev=>sv.loadSkin(ev.target.result);r.readAsDataURL(f)}};
-        
-        function tDD(e){
-            e.stopPropagation();
-            const d=document.getElementById('mDD');
-            const isOpen = d.style.display==='flex';
-            d.style.display=isOpen?'none':'flex';
-            if(!isOpen) tg.HapticFeedback?.impactOccurred('light');
-        }
-
-        function setM(m){
-            mN.innerText=m; const isS=m==='STEVE';
-            sv.loadSkin(isS?"https://minotar.net/skin/MHF_Steve.png":"https://minotar.net/skin/MHF_Alex.png",{model:isS?"default":"slim"});
-            tg.HapticFeedback?.impactOccurred('medium');
-        }
-
-        function toggleLayers(){
-            const s = sv.playerObject.skin;
-            const active = layerSt.innerText === "ON";
-            layerSt.innerText = active ? "OFF" : "ON";
-            layerSt.style.color = active ? "#ff4444" : "#44ff44";
-            
-            // Отключаем/включаем все внешние слои
-            const parts = ['hat', 'jacket', 'leftSleeve', 'rightSleeve', 'leftPants', 'rightPants'];
-            parts.forEach(part => sv.playerObject.skin[part].visible = !active);
-            
-            tg.HapticFeedback?.impactOccurred('light');
-        }
-
-        window.onclick=()=>document.getElementById('mDD').style.display='none';
+        function tDD(e){e.stopPropagation();const d=mDD;d.style.display=d.style.display==='flex'?'none':'flex';if(d.style.display==='flex')tg.HapticFeedback?.impactOccurred('light')}
+        function setM(m){mN.innerText=m;const isS=m==='STEVE';sv.loadSkin(isS?"https://minotar.net/skin/MHF_Steve.png":"https://minotar.net/skin/MHF_Alex.png",{model:isS?"default":"slim"});tg.HapticFeedback?.impactOccurred('medium')}
+        function toggleL(){const active=lSt.innerText==="ON";lSt.innerText=active?"OFF":"ON";lSt.style.color=active?"#555":"#fff";const p=['hat','jacket','leftSleeve','rightSleeve','leftPants','rightPants'];p.forEach(x=>sv.playerObject.skin[x].visible=!active);tg.HapticFeedback?.impactOccurred('light')}
+        function saveS(){tg.HapticFeedback?.notificationOccurred('success')}
+        function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download='skin.png';a.click()}
+        window.onclick=()=>mDD.style.display='none';
         document.addEventListener('touchmove',e=>{if(e.target.closest('#skin_container'))e.preventDefault()},{passive:false});
     </script>
 </body>
