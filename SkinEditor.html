@@ -34,11 +34,24 @@
         .dropdown div{padding:10px;border-bottom:1px solid #111;color:#fff;text-align:center;font-size:7px}
         
         .btn-icon{width:14px;height:14px;filter:brightness(0) invert(1)}
+        /* Робот без инверсии */
+        .robot-icon{width:14px;height:14px}
         
-        main{flex:1;display:flex;flex-direction:column;align-items:center;padding-top:20px}
-        .view-w{width:calc(100% - 40px);height:50%;background:#1a1a1a;border:2px solid #000;box-shadow:inset 2px 2px 0 #222;position:relative;overflow:hidden}
+        main{flex:1;display:flex;flex-direction:column;align-items:center;padding-top:20px;position:relative}
+        
+        /* Вьюпорт и контейнер */
+        .view-row{display:flex;align-items:center;gap:10px;width:calc(100% - 20px);justify-content:center}
+        .view-w{width:calc(100% - 40px);height:300px;background:#1a1a1a;border:2px solid #000;box-shadow:inset 2px 2px 0 #222;position:relative;overflow:hidden}
         .view-w::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(45deg,#222 25%,transparent 25%),linear-gradient(-45deg,#222 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#222 75%),linear-gradient(-45deg,transparent 75%,#222 75%);background-size:20px 20px}
         #skin_container{width:100%;height:100%;position:absolute;display:flex;justify-content:center;align-items:center}
+
+        /* Панель зума */
+        .zoom-panel{width:20px;height:180px;background:#2b2b2b;border:1px solid #000;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:5px 0;position:relative}
+        .zoom-val{font-size:6px;color:#555}
+        .zoom-scale{flex:1;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;position:relative}
+        .zoom-line{width:8px;height:1px;background:#444}
+        .zoom-center{width:12px;height:2px;background:#fff;box-shadow:0 0 5px #fff;z-index:2}
+        
         .status-bar{height:25px;background:#2b2b2b;border-top:1px solid #111;display:flex;align-items:center;padding:0 12px;font-size:7px;color:#555;justify-content:space-between}
     </style>
 </head>
@@ -64,7 +77,7 @@
             </div>
             <div class="btn-ui" onclick="toggleL()"><span style="color:#888">LAYERS: </span><span id="lSt" style="margin-left:4px">ON</span></div>
             <div class="btn-ui" onclick="tg.HapticFeedback?.impactOccurred('light')">
-                <img src="https://cdn-icons-png.flaticon.com/512/8254/8254111.png" class="btn-icon">
+                <img src="https://cdn-icons-png.flaticon.com/512/8254/8254111.png" class="robot-icon">
             </div>
         </div>
         <div class="toolbar-right">
@@ -72,11 +85,30 @@
             <div class="btn-ui" onclick="expS()"><img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon"></div>
         </div>
     </div>
-    <main><div class="view-w"><div id="skin_container"></div></div></main>
+
+    <main>
+        <div class="view-row">
+            <div class="view-w">
+                <div id="skin_container"></div>
+            </div>
+            <div class="zoom-panel">
+                <div class="zoom-val" id="zUp">0</div>
+                <div class="zoom-scale">
+                    <div class="zoom-line"></div>
+                    <div class="zoom-line"></div>
+                    <div class="zoom-center"></div>
+                    <div class="zoom-line"></div>
+                    <div class="zoom-line"></div>
+                </div>
+                <div class="zoom-val" id="zDown">0</div>
+            </div>
+        </div>
+    </main>
+
     <div class="status-bar"><span>MODE: PREVIEW</span><span>RES: 64x64</span></div>
+
     <script>
         const tg=window.Telegram.WebApp;tg.expand();tg.disableVerticalSwipes();
-        // Инициализация Стива с толстыми руками (default)
         let sv=new skinview3d.SkinViewer({
             width:300,
             height:300,
@@ -88,9 +120,25 @@
         let ctrl=skinview3d.createOrbitControls(sv);
         sv.zoom=3.5;sv.camera.position.set(0,10,30);sv.animation=new skinview3d.WalkingAnimation();
 
-        function upP(){const c=sv.camera.position;pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`}
-        ctrl.addEventListener('change',upP);upP();
-        function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=w.clientWidth/w.clientHeight;sv.camera.updateProjectionMatrix()}
+        function upP(){
+            const c=sv.camera.position;
+            pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`;
+            // Обновляем цифры зума на панели
+            let zF = Math.abs(Math.round((sv.zoom - 3.5) * 10));
+            zUp.innerText = zF;
+            zDown.innerText = zF;
+        }
+        
+        ctrl.addEventListener('change',upP);
+        upP();
+
+        function res(){
+            const w=document.querySelector('.view-w');
+            sv.width=w.clientWidth;
+            sv.height=w.clientHeight;
+            sv.camera.aspect=w.clientWidth/w.clientHeight;
+            sv.camera.updateProjectionMatrix();
+        }
         window.addEventListener('resize',res);res();
 
         function renameF(){
@@ -106,7 +154,6 @@
         function setM(m, isSlim){
             mN.innerText=m;
             const url = isSlim ? "https://minotar.net/skin/Alex" : "https://minotar.net/skin/MHF_Steve.png";
-            // Для Стива всегда ставим "default" (толстые руки)
             sv.loadSkin(url, {model: isSlim ? "slim" : "default"});
             tg.HapticFeedback?.impactOccurred('medium');
         }
