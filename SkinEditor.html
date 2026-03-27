@@ -25,134 +25,119 @@
             padding-top: var(--tg-safe-area-inset-top, 20px); 
         }
 
-        /* Панель вкладок сверху */
+        /* Вкладки */
         .tabs-row {
             display: flex;
             padding: 0 10px;
             gap: 2px;
-            height: 28px;
+            height: 30px;
             align-items: flex-end;
         }
 
         .tab {
-            height: 24px;
-            background: #2b2b2b;
+            height: 26px;
+            background: #252525;
             border: 1px solid #000;
             border-bottom: none;
-            padding: 0 10px;
+            padding: 0 12px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-size: 8px;
-            color: #666;
-            border-radius: 3px 3px 0 0;
+            color: #555; /* Серый текст для неактивной вкладки */
+            border-radius: 4px 4px 0 0;
         }
 
         .tab.active {
-            background: #333;
-            color: #fff;
-            height: 28px;
-            border-top: 2px solid #4CAF50;
+            background: #3d3d3d;
+            color: #fff; /* Белый текст для активной вкладки */
+            height: 30px;
             z-index: 2;
         }
 
-        .tab-icon { width: 10px; height: 10px; opacity: 0.7; }
+        .tab-icon, .btn-icon { 
+            width: 12px; height: 12px; 
+            filter: brightness(0) invert(1); /* Делаем иконки белыми */
+            object-fit: contain;
+        }
 
-        /* Верхняя панель инструментов (Шапка) */
+        /* Панель инструментов */
         .toolbar {
-            height: 40px;
+            height: 42px;
             background: #333;
             border-top: 1px solid #444;
             border-bottom: 2px solid #000;
             display: flex;
             align-items: center;
             padding: 0 10px;
-            gap: 8px;
+            gap: 6px;
         }
 
         .tool-btn {
-            height: 28px;
+            height: 30px;
             background: #3d3d3d;
             border: 1px solid #111;
             box-shadow: inset 1px 1px 0 #555, inset -1px -1px 0 #222;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 0 8px;
+            gap: 6px;
+            padding: 0 10px;
             font-size: 8px;
             cursor: pointer;
+            color: #fff; /* Белый текст на кнопках */
         }
 
-        .tool-btn:active { box-shadow: inset -1px -1px 0 #555, inset 1px 1px 0 #222; }
+        .tool-btn:active { 
+            box-shadow: inset -1px -1px 0 #555, inset 1px 1px 0 #222; 
+            transform: translateY(1px);
+        }
 
-        .divider { width: 1px; height: 20px; background: #1a1a1a; margin: 0 2px; }
+        .divider { width: 1px; height: 22px; background: #1a1a1a; margin: 0 4px; border-right: 1px solid #444; }
 
         /* Рабочая область */
         main {
             flex: 1;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             background: #222;
             padding: 20px;
         }
 
-        /* Окно предпросмотра скина (как на рефах) */
         .viewport-window {
             width: 100%;
-            max-width: 340px;
-            height: 50%; /* Скин занимает половину экрана */
+            max-width: 360px;
+            height: 50%; 
             background: #1a1a1a;
             border: 2px solid #000;
             box-shadow: inset 2px 2px 0 #333;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
         }
 
-        /* Имитация сетки фона (прозрачность) */
         .viewport-window::before {
             content: "";
             position: absolute;
-            width: 200%; height: 200%;
+            width: 100%; height: 100%;
             background-image: linear-gradient(45deg, #1d1d1d 25%, transparent 25%), 
                               linear-gradient(-45deg, #1d1d1d 25%, transparent 25%), 
                               linear-gradient(45deg, transparent 75%, #1d1d1d 75%), 
                               linear-gradient(-45deg, transparent 75%, #1d1d1d 75%);
             background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
             opacity: 0.5;
-            z-index: 0;
         }
 
-        #skin_container {
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+        #skin_container { width: 100%; height: 100%; position: relative; z-index: 1; }
 
-        .window-label {
-            position: absolute;
-            top: 5px;
-            left: 8px;
-            font-size: 7px;
-            color: #444;
-            z-index: 2;
-        }
-
-        /* Нижний статус-бар */
         .status-bar {
             height: 25px;
-            background: #333;
+            background: #2b2b2b;
             border-top: 1px solid #111;
             display: flex;
             align-items: center;
-            padding: 0 10px;
+            padding: 0 12px;
             font-size: 7px;
-            color: #777;
+            color: #555;
             justify-content: space-between;
         }
     </style>
@@ -170,21 +155,32 @@
     <div class="toolbar">
         <div class="tool-btn" onclick="goBack()">BACK</div>
         <div class="divider"></div>
-        <div class="tool-btn">FILE</div>
-        <div class="tool-btn">EDIT</div>
-        <div class="tool-btn">VIEW</div>
+        
+        <div class="tool-btn">
+            <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/download-icon-svg-download-png-14350272.png?f=webp&w=512" class="btn-icon">
+            <span>IMPORT</span>
+        </div>
+
+        <div class="tool-btn">
+            <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/upload-icon-svg-download-png-14350373.png?f=webp&w=512" class="btn-icon">
+            <span>EXPORT</span>
+        </div>
+
+        <div class="tool-btn">
+            <img src="https://cdn.iconscout.com/icon/premium/png-512-thumb/save-icon-svg-download-png-14350349.png?f=webp&w=512" class="btn-icon">
+            <span>SAVE</span>
+        </div>
     </div>
 
     <main>
         <div class="viewport-window">
-            <div class="window-label">3D_VIEWPORT_V1</div>
             <div id="skin_container"></div>
         </div>
     </main>
 
     <div class="status-bar">
-        <span>64x64 PX | STEVE_MODEL</span>
-        <span>FPS: 60</span>
+        <span>MODE: PREVIEW</span>
+        <span>RES: 64x64</span>
     </div>
 
     <script>
@@ -192,28 +188,18 @@
         tg.expand();
         tg.ready();
 
-        // Настройка вьювера
         let skinViewer = new skinview3d.SkinViewer({
-            width: 340,
-            height: window.innerHeight * 0.5, 
+            width: 300,
+            height: 300, 
             skin: "https://minotar.net/skin/MHF_Steve.png",
-            alpha: true // Чтобы видеть фон-сетку
+            alpha: true
         });
         
         document.getElementById("skin_container").appendChild(skinViewer.canvas);
-
         let control = skinview3d.createOrbitControls(skinViewer);
-        control.enableRotate = true;
-        control.enableZoom = true;
-        control.enablePan = false;
-
-        // Делаем Стива небольшим внутри его окна
-        skinViewer.zoom = 0.55; 
-        
+        skinViewer.zoom = 0.5; 
         skinViewer.animation = new skinview3d.WalkingAnimation();
-        skinViewer.animation.speed = 0.4;
 
-        // Подгонка размера под окно
         function resize() {
             const win = document.querySelector('.viewport-window');
             skinViewer.width = win.clientWidth;
