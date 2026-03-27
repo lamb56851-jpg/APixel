@@ -62,21 +62,45 @@
         document.getElementById("skin_container").appendChild(sv.canvas);
         let ctrl=skinview3d.createOrbitControls(sv);
         sv.zoom=3.2;sv.camera.position.set(0,12,25);sv.animation=new skinview3d.WalkingAnimation();
+        let currentSkinUrl = "https://minotar.net/skin/MHF_Steve.png";
+
         function upP(){const c=sv.camera.position;pT.innerText=`${Math.round(c.x)} ${Math.round(c.y)} ${Math.round(c.z)}`}
         ctrl.addEventListener('change',upP);upP();
         function res(){const w=document.querySelector('.view-w');sv.width=w.clientWidth;sv.height=w.clientHeight;sv.camera.aspect=w.clientWidth/w.clientHeight;sv.camera.updateProjectionMatrix()}
         window.addEventListener('resize',res);res();
+
         sU.onchange=e=>{
             const f=e.target.files[0];if(f){fN.innerText=f.name;const r=new FileReader();
             r.onload=ev=>{const img=new Image();img.onload=()=>{
                 const c=document.createElement('canvas');const ctx=c.getContext('2d');c.width=img.width;c.height=img.height;ctx.drawImage(img,0,0);
-                const isS=ctx.getImageData(50,16,1,1).data[3]!==0;setM(isS?'STEVE':'ALEX',ev.target.result)};img.src=ev.target.result};r.readAsDataURL(f)}};
+                // Проверка 4-го пикселя в области рук для определения Slim/Default
+                const isS=ctx.getImageData(50,16,1,1).data[3]!==0;
+                currentSkinUrl = ev.target.result;
+                setM(isS?'STEVE':'ALEX', currentSkinUrl);
+            };img.src=ev.target.result};r.readAsDataURL(f)}};
+
         function tDD(e){e.stopPropagation();mDD.style.display=mDD.style.display==='flex'?'none':'flex';if(mDD.style.display==='flex')tg.HapticFeedback?.impactOccurred('light')}
-        function setM(m,src){mN.innerText=m;const isS=m==='STEVE';const u=src||(isS?"https://minotar.net/skin/MHF_Steve.png":"https://minotar.net/skin/MHF_Alex.png");
-            sv.loadSkin(u,{model:isS?"default":"slim"});tg.HapticFeedback?.impactOccurred('medium')}
-        function toggleL(){const a=lSt.innerText==="ON";lSt.innerText=a?"OFF":"ON";lSt.style.color=a?"#888":"#fff";
-            const p=['hat','jacket','leftSleeve','rightSleeve','leftPants','rightPants'];
-            p.forEach(x=>sv.playerObject.skin[x].visible=!a);tg.HapticFeedback?.impactOccurred('light')}
+        
+        function setM(m,src){
+            mN.innerText=m;const isS=(m==='STEVE');
+            const u=src||(isS?"https://minotar.net/skin/MHF_Steve.png":"https://minotar.net/skin/MHF_Alex.png");
+            currentSkinUrl = u;
+            sv.loadSkin(u,{model:isS?"default":"slim"});
+            tg.HapticFeedback?.impactOccurred('medium');
+        }
+
+        function toggleL(){
+            const active=lSt.innerText==="ON";
+            lSt.innerText=active?"OFF":"ON";
+            lSt.style.color=active?"#888":"#fff";
+            // Правильное управление внешними слоями (outerLayer)
+            const parts = ['head', 'body', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
+            parts.forEach(p => {
+                sv.playerObject.skin[p].outerLayer.visible = !active;
+            });
+            tg.HapticFeedback?.impactOccurred('light');
+        }
+
         function saveS(){tg.HapticFeedback?.notificationOccurred('success')}
         function expS(){const a=document.createElement('a');a.href=sv.canvas.toDataURL();a.download=fN.innerText;a.click()}
         window.onclick=()=>mDD.style.display='none';
